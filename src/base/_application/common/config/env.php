@@ -11,9 +11,6 @@ use yii2lab\app\domain\filters\config\LoadRouteConfig;
 $basePath = TEST_APPLICATION_DIR . DS;
 
 return [
-	/*'yii' => [
-		'class' => VENDOR_DIR . DS . 'yii2bundle/yii2-domain/src/yii2' . DS . 'Yii.php',
-	],*/
 	'app' => [
 		'commands' => [
 			[
