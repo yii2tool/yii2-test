@@ -1,0 +1,27 @@
+{
+	"name": "yii2tool/yii2-test",
+	"type": "yii2-extension",
+	"keywords": ["yii2","test"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Yamshikov Vitaliy",
+			"email": "theyamshikov@yandex.ru"
+		}
+	],
+	"minimum-stability": "dev",
+	"autoload": {
+		"psr-4": {
+			"yii2lab\\test\\": "src"
+		}
+	},
+	"require": {
+		"yiisoft/yii2": "*",
+		"guzzlehttp/guzzle": "*",
+		"codeception/base": "2.4.0",
+		"codeception/verify": "0.3.3",
+		"codeception/phpunit-wrapper": "6.0.9",
+		"phpunit/phpunit": "6.5.8",
+		"php": ">=5.3.0"
+	}
+}
