@@ -12,6 +12,36 @@ return [
         ],
     ],
 	[
+		'name' => 'yii2rails',
+		'provider' => 'github',
+		'authors' => [
+			[
+				'name' => 'Yamshikov Vitaliy',
+				'email' => 'theyamshikov@yandex.ru',
+			],
+		],
+	],
+	[
+		'name' => 'yii2team',
+		'provider' => 'github',
+		'authors' => [
+			[
+				'name' => 'Yamshikov Vitaliy',
+				'email' => 'theyamshikov@yandex.ru',
+			],
+		],
+	],
+	[
+		'name' => 'yii2tool',
+		'provider' => 'github',
+		'authors' => [
+			[
+				'name' => 'Yamshikov Vitaliy',
+				'email' => 'theyamshikov@yandex.ru',
+			],
+		],
+	],
+	[
 		'name' => 'yii2game',
 		'provider' => 'github',
 		'authors' => [
