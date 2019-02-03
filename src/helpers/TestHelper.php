@@ -2,9 +2,9 @@
 
 namespace yii2lab\test\helpers;
 
-use yii2lab\app\domain\helpers\Config;
-use yii2lab\app\domain\helpers\Env;
-use yii2lab\extension\yii\helpers\FileHelper;
+use yii2rails\app\domain\helpers\Config;
+use yii2rails\app\domain\helpers\Env;
+use yii2rails\extension\yii\helpers\FileHelper;
 
 class TestHelper {
 	

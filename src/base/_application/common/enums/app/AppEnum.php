@@ -2,7 +2,7 @@
 
 namespace yii2lab\test\base\_application\common\enums\app;
 
-use yii2lab\extension\enum\base\BaseEnum;
+use yii2rails\extension\enum\base\BaseEnum;
 
 class AppEnum extends BaseEnum {
 	

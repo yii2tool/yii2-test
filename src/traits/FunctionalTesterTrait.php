@@ -3,7 +3,7 @@
 namespace yii2lab\test\traits;
 
 use Yii;
-use yii2lab\extension\web\enums\HttpHeaderEnum;
+use yii2rails\extension\web\enums\HttpHeaderEnum;
 use yii2mod\helpers\ArrayHelper;
 use yii2lab\test\models\Login;
 use Codeception\Util\HttpCode;

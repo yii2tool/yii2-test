@@ -1,7 +1,7 @@
 <?php
 namespace yii2lab\test\models;
 
-use yii2lab\extension\store\ActiveStore;
+use yii2rails\extension\store\ActiveStore;
 
 class Login extends ActiveStore
 {

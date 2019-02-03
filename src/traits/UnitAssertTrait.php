@@ -5,11 +5,11 @@ namespace yii2lab\test\traits;
 use Throwable;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
-use yii2lab\domain\BaseEntity;
-use yii2lab\domain\data\EntityCollection;
-use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
-use yii2lab\extension\common\enums\RegexpPatternEnum;
-use yii2lab\extension\common\helpers\UrlHelper;
+use yii2rails\domain\BaseEntity;
+use yii2rails\domain\data\EntityCollection;
+use yii2rails\domain\exceptions\UnprocessableEntityHttpException;
+use yii2rails\extension\common\enums\RegexpPatternEnum;
+use yii2rails\extension\common\helpers\UrlHelper;
 use yii2module\error\domain\helpers\UnProcessibleHelper;
 
 trait UnitAssertTrait

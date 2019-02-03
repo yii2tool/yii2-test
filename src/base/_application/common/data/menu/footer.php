@@ -1,6 +1,6 @@
 <?php
 
-use yii2lab\app\domain\helpers\EnvService;
+use yii2rails\app\domain\helpers\EnvService;
 use yii2lab\applicationTemplate\common\enums\ApplicationPermissionEnum;
 
 return [

@@ -3,7 +3,7 @@
 namespace yii2lab\test\Test;
 
 use PHPUnit\Framework\TestResult;
-use yii2lab\app\domain\helpers\EnvService;
+use yii2rails\app\domain\helpers\EnvService;
 
 // todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2lab\test\Test\Unit;"
 

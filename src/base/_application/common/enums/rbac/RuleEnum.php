@@ -2,7 +2,7 @@
 
 namespace yii2lab\test\base\_application\common\enums\rbac;
 
-use yii2lab\extension\enum\base\BaseEnum;
+use yii2rails\extension\enum\base\BaseEnum;
 
 /**
  * Class RuleEnum

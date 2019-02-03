@@ -1,6 +1,6 @@
 <?php
 
-use yii2lab\app\domain\helpers\Config;
+use yii2rails\app\domain\helpers\Config;
 
-$config = \yii2lab\app\domain\helpers\EnvService::get('config');
+$config = \yii2rails\app\domain\helpers\EnvService::get('config');
 return Config::loadData($config);

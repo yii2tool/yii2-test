@@ -3,10 +3,10 @@
 namespace yii2lab\test\helpers;
 
 use yii\helpers\ArrayHelper;
-use yii2lab\domain\base\BaseDto;
-use yii2lab\domain\BaseEntity;
-use yii2lab\extension\yii\helpers\FileHelper;
-use yii2lab\extension\store\Store;
+use yii2rails\domain\base\BaseDto;
+use yii2rails\domain\BaseEntity;
+use yii2rails\extension\yii\helpers\FileHelper;
+use yii2rails\extension\store\Store;
 
 class DataHelper {
 	

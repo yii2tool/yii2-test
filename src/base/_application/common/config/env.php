@@ -1,12 +1,12 @@
 <?php
 
-use yii2lab\app\domain\commands\ApiVersion;
-use yii2lab\app\domain\commands\RunBootstrap;
-use yii2lab\app\domain\filters\config\LoadConfig;
-use yii2lab\app\domain\filters\config\LoadModuleConfig;
-use yii2lab\domain\filters\LoadDomainConfig;
-use yii2lab\app\domain\enums\YiiEnvEnum;
-use yii2lab\app\domain\filters\config\LoadRouteConfig;
+use yii2rails\app\domain\commands\ApiVersion;
+use yii2rails\app\domain\commands\RunBootstrap;
+use yii2rails\app\domain\filters\config\LoadConfig;
+use yii2rails\app\domain\filters\config\LoadModuleConfig;
+use yii2rails\domain\filters\LoadDomainConfig;
+use yii2rails\app\domain\enums\YiiEnvEnum;
+use yii2rails\app\domain\filters\config\LoadRouteConfig;
 
 $basePath = TEST_APPLICATION_DIR . DS;
 
@@ -26,7 +26,7 @@ return [
 				'isEnabled' => APP == API || APP == CONSOLE,
 			],
             [
-                'class' => 'yii2lab\domain\filters\DefineDomainLocator',
+                'class' => 'yii2rails\domain\filters\DefineDomainLocator',
                 'filters' => [
                     [
                         'class' => LoadDomainConfig::class,
@@ -120,7 +120,7 @@ return [
 				'isEnabled' => YII_ENV == YiiEnvEnum::TEST,
 			],
 			
-            'yii2lab\app\domain\filters\config\StandardConfigMutations',
+            'yii2rails\app\domain\filters\config\StandardConfigMutations',
 		],
 	],
 ];
