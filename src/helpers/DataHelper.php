@@ -5,8 +5,8 @@ namespace yii2lab\test\helpers;
 use yii\helpers\ArrayHelper;
 use yii2rails\domain\base\BaseDto;
 use yii2rails\domain\BaseEntity;
+use yii2rails\extension\store\StoreFile;
 use yii2rails\extension\yii\helpers\FileHelper;
-use yii2rails\extension\store\Store;
 
 class DataHelper {
 	
@@ -19,9 +19,8 @@ class DataHelper {
 	}
 	
 	public static function load($packageName, $filename, $defaultData = null) {
-		$driver = FileHelper::fileExt($filename);
-		$store = new Store($driver);
-		$configExpect = $store->load(self::getDataFilename($packageName, $filename));
+		$store = new StoreFile(self::getDataFilename($packageName, $filename));
+		$configExpect = $store->load();
 		if(empty($configExpect)) {
 			if(is_array($defaultData) || $defaultData instanceof BaseEntity || $defaultData instanceof BaseDto) {
 				$defaultData = ArrayHelper::toArray($defaultData);
@@ -33,9 +32,8 @@ class DataHelper {
 	}
 	
 	private static function save($packageName, $filename, $data) {
-		$driver = FileHelper::fileExt($filename);
-		$store = new Store($driver);
-		$store->save(self::getDataFilename($packageName, $filename), $data);
+		$store = new StoreFile(self::getDataFilename($packageName, $filename));
+		$store->save($data);
 	}
 	
 	private static function getDataFilename($packageName, $filename) {
