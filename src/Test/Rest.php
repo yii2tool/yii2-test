@@ -3,6 +3,7 @@
 namespace yii2lab\test\Test;
 
 use PHPUnit\Framework\TestResult;
+use yii\helpers\ArrayHelper;
 use yii2rails\app\domain\helpers\EnvService;
 
 // todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2lab\test\Test\Unit;"
@@ -27,9 +28,17 @@ class Rest extends \Codeception\Test\Unit {
 			$this->url .= 'v' . $version . SL;
 		}
 	}
-	
+
+    protected function getUrlFromEnv() {
+        $envConfig = include(__DIR__ . '/../../../../../common/config/env-local.php');
+        $url = ArrayHelper::getValue($envConfig, 'url.api');
+        $url = trim($url, SL);
+        return $url;
+    }
+
 	protected function url($uri = null) {
-		$url = EnvService::getUrl('api', 'index-test.php');
+        $url = $this->getUrlFromEnv();
+        $url .= SL . 'index-test.php';
 		if(!empty($uri)) {
 			$url .= SL . $uri;
 		}

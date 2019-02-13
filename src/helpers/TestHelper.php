@@ -8,12 +8,12 @@ use yii2rails\extension\yii\helpers\FileHelper;
 
 class TestHelper {
 	
-	const PACKAGE_TEST_DB_FILE = '@common/runtime/sqlite/test-package.db';
+	const PACKAGE_TEST_DB_FILE = '@common/runtime/sqlite/test.db';
 	
 	public static function copySqlite($dir) {
 		
 		$sourceFile = $dir . '/db/test.db';
-		$targetFile = ROOT_DIR . '/common/runtime/sqlite/test-package.db';
+		$targetFile = ROOT_DIR . '/common/runtime/sqlite/test.db';
 		if(!FileHelper::has($sourceFile)) {
 			return;
 		}
