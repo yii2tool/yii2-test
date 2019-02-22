@@ -2,20 +2,50 @@
 
 namespace yii2lab\test\helpers;
 
+use App;
+use yii\data\BaseDataProvider;
 use yii\helpers\ArrayHelper;
 use yii2rails\domain\base\BaseDto;
 use yii2rails\domain\BaseEntity;
 use yii2rails\extension\store\StoreFile;
 use yii2rails\extension\yii\helpers\FileHelper;
+use yubundle\account\domain\v2\forms\LoginForm;
 
 class DataHelper {
-	
+
+    public static function auth($login, $password = 'Wwwqqq111') {
+        $loginForm = new LoginForm;
+        $loginForm->login = $login;
+        $loginForm->password = $password;
+        $loginEntity = App::$domain->account->auth->authenticationFromApi($loginForm);
+        App::$domain->account->auth->login($loginEntity);
+    }
+
+    public static function fakeCollectionValue($collection, $values) {
+        foreach ($collection as $entity) {
+            foreach ($values as $key => $val) {
+                $entity->{$key} = $val;
+            }
+        }
+        return $collection;
+    }
+
+    public static function loadForTest2($package, $method, $defaultData = null, $format = 'json') {
+        //$method = basename($method);
+        $method = str_replace('tests\\', '', $method);
+        $path = str_replace('::', SL, $method);
+        $fileName = '_expect' . SL . $path . DOT . $format;
+        $packageDir = $package . DS . 'tests';
+        return self::load($packageDir, $fileName, $defaultData);
+    }
+
 	public static function loadForTest($package, $method, $defaultData = null, $format = 'json') {
 		//$method = basename($method);
 		$method = str_replace('tests\\', '', $method);
 		$path = str_replace('::', SL, $method);
 		$fileName = '_expect' . SL . $path . DOT . $format;
-		return self::load($package, $fileName, $defaultData);
+		$packageDir = VENDOR_DIR . DS . $packageName . DS . 'tests';
+		return self::load($packageDir, $fileName, $defaultData);
 	}
 	
 	public static function load($packageName, $filename, $defaultData = null) {
@@ -37,7 +67,7 @@ class DataHelper {
 	}
 	
 	private static function getDataFilename($packageName, $filename) {
-		return VENDOR_DIR . DS . $packageName . DS . 'tests' . DS . $filename;
+		return $packageName . DS . $filename;
 	}
 	
 }
