@@ -9,22 +9,30 @@ use yii2rails\domain\base\BaseDto;
 use yii2rails\domain\BaseEntity;
 use yii2rails\extension\store\StoreFile;
 use yii2rails\extension\yii\helpers\FileHelper;
+use yubundle\account\domain\v2\entities\LoginEntity;
 use yubundle\account\domain\v2\forms\LoginForm;
+use yubundle\account\domain\v2\interfaces\entities\LoginEntityInterface;
 
 class DataHelper {
 
     public static function auth($login, $password = 'Wwwqqq111') {
+        App::$domain->account->auth->logout();
         $loginForm = new LoginForm;
         $loginForm->login = $login;
         $loginForm->password = $password;
         $loginEntity = App::$domain->account->auth->authenticationFromApi($loginForm);
         App::$domain->account->auth->login($loginEntity);
+        return $loginEntity;
     }
 
     public static function fakeCollectionValue($collection, $values) {
-        foreach ($collection as $entity) {
+        foreach ($collection as &$entity) {
             foreach ($values as $key => $val) {
-                $entity->{$key} = $val;
+                if(is_object($entity)) {
+                    $entity->{$key} = $val;
+                } else {
+                    ArrayHelper::setValue($entity, $key, $val);
+                }
             }
         }
         return $collection;
