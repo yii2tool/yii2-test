@@ -21,6 +21,10 @@ class BaseApiTest extends Rest
 
     protected function prepareRequest(RequestEntity $requestEntity) {
         $this->prepareAuthorization($requestEntity);
+        $this->prepareUri($requestEntity);
+    }
+
+    protected function prepareUri(RequestEntity $requestEntity) {
         $uri = $requestEntity->uri;
         $requestEntity->uri = $this->url($this->point);
         if($uri) {
