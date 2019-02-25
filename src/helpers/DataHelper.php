@@ -47,7 +47,7 @@ class DataHelper {
         return self::load($packageDir, $fileName, $defaultData);
     }
 
-	public static function loadForTest($package, $method, $defaultData = null, $format = 'json') {
+	public static function loadForTest($packageName, $method, $defaultData = null, $format = 'json') {
 		//$method = basename($method);
 		$method = str_replace('tests\\', '', $method);
 		$path = str_replace('::', SL, $method);
