@@ -20,6 +20,7 @@ class BaseApiTest extends Rest
     }
 
     protected function prepareRequest(RequestEntity $requestEntity) {
+        $this->prepareLanguage($requestEntity);
         $this->prepareAuthorization($requestEntity);
         $this->prepareUri($requestEntity);
     }
@@ -30,6 +31,12 @@ class BaseApiTest extends Rest
         if($uri) {
             $requestEntity->uri = $requestEntity->uri . SL . $uri;
         }
+    }
+
+    protected function prepareLanguage(RequestEntity $requestEntity) {
+        $headers = $requestEntity->headers;
+        $headers['Language'] = 'xx';
+        $requestEntity->headers = $headers;
     }
 
     protected function prepareAuthorization(RequestEntity $requestEntity) {
