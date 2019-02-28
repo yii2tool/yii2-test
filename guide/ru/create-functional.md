@@ -24,7 +24,7 @@ class AuthTest extends Unit
 public function testAuthenticationBadPassword()
 {
 	try {
-		Yii::$app->account->auth->authentication(LoginEnum::LOGIN_ADMIN, LoginEnum::PASSWORD_INCORRECT);
+		App::$domain->account->auth->authentication(LoginEnum::LOGIN_ADMIN, LoginEnum::PASSWORD_INCORRECT);
 		$this->tester->assertBad();
 	} catch(UnprocessableEntityHttpException $e) {
 		$this->tester->assertUnprocessableEntityHttpException(['password' => 'Incorrect login or password'], $e);
@@ -39,7 +39,7 @@ public function testAuthenticationByBadToken()
 {
 	try {
 		/** @var LoginEntity $entity */
-		Yii::$app->account->auth->authenticationByToken(LoginEnum::TOKEN_NOT_INCORRECT);
+		App::$domain->account->auth->authenticationByToken(LoginEnum::TOKEN_NOT_INCORRECT);
 		$this->tester->assertBad();
 	} catch(UnauthorizedHttpException $e) {
 		$this->tester->assertTrue(true);
@@ -57,7 +57,7 @@ public function testAllWithRelations()
 		$query = Query::forge();
 		$query->where('id', 2000);
 		$query->limit(1);
-		$collection = Yii::$app->geo->city->all($query);
+		$collection = App::$domain->geo->city->all($query);
 		
 		$this->tester->assertCount(1, $collection);
 		$this->tester->assertCollection([
@@ -81,7 +81,7 @@ public function testOneWithRelations()
 		/** @var BaseEntity $entity */
 		$query = Query::forge();
 		$query->where('id', 2000);
-		$entity = Yii::$app->geo->city->one($query);
+		$entity = App::$domain->geo->city->one($query);
 		
 		$this->tester->assertEntity([
 			'id' => 2000,
