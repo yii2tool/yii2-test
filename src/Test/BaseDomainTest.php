@@ -6,11 +6,17 @@ use yii2lab\test\Test\Unit;
 use yii\data\DataProviderInterface;
 use yii\helpers\ArrayHelper;
 use yii2lab\test\helpers\DataHelper;
+use yii2rails\domain\BaseEntity;
 
 class BaseDomainTest extends Unit
 {
 
     public $package;
+
+    public function assertArray(array $actual, $method) {
+        $expect = DataHelper::loadForTest2($this->package, $method, $actual);
+        $this->tester->assertEquals($expect, $actual);
+    }
 
     public function assertDataProvider(DataProviderInterface $dataProvider, $method) {
         $collection = $dataProvider->getModels();
