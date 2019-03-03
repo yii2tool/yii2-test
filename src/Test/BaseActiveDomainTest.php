@@ -44,7 +44,7 @@ class BaseActiveDomainTest extends BaseDomainTest
         $this->assertDataProvider($dataProvider, $this->prepareMethod(__METHOD__));
     }
 
-    public function ____testAllPage2() {
+    public function _testAllPage2() {
         $this->prepareAuth();
         $query = $this->prepareQuery();
         $query->page(2);
@@ -63,7 +63,7 @@ class BaseActiveDomainTest extends BaseDomainTest
         $this->assertDataProvider($dataProvider, $this->prepareMethod(__METHOD__));
     }
 
-    public function testOne() {
+    public function _testOne() {
         $this->prepareAuth();
         $query = $this->prepareQuery();
         /** @var BoxInterface $serviceInstance */
@@ -72,7 +72,7 @@ class BaseActiveDomainTest extends BaseDomainTest
         $this->assertArray($entity->toArray(), $this->prepareMethod(__METHOD__));
     }
 
-    public function testDelete() {
+    public function _testDelete() {
         $this->prepareAuth();
         /** @var BoxInterface $serviceInstance */
         $serviceInstance = $this->serviceInstance();
@@ -82,7 +82,7 @@ class BaseActiveDomainTest extends BaseDomainTest
         $this->assertDataProvider($dataProvider, $this->prepareMethod(__METHOD__));
     }
 
-    public function testOneWithRelations() {
+    public function _testOneWithRelations() {
         $this->prepareAuth();
         $query = $this->prepareQuery(['relations']);
         /** @var BoxInterface $serviceInstance */
@@ -91,7 +91,7 @@ class BaseActiveDomainTest extends BaseDomainTest
         $this->assertArray($entity->toArray(), $this->prepareMethod(__METHOD__));
     }
 
-    public function testOneNotExists() {
+    public function _testOneNotExists() {
         $this->prepareAuth();
         $query = $this->prepareQuery();
         /** @var BoxInterface $serviceInstance */
