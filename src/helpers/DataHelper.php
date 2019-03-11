@@ -15,12 +15,32 @@ use yubundle\account\domain\v2\interfaces\entities\LoginEntityInterface;
 
 class DataHelper {
 
+    public static function authByLogin($login) {
+        $loginEntity = App::$domain->account->login->oneByLogin($login);
+        $loginEntity->token = self::forgeTokenById($loginEntity->id);
+        \App::$domain->account->auth->login($loginEntity);
+    }
+
+    protected static function forgeTokenById($id) {
+        $tokenEntity = \App::$domain->jwt->token->forgeBySubject(['id'=>$id], 'auth');
+        $token = 'jwt ' . $tokenEntity->token;
+        return $token;
+    }
+
+    public static function authById($id) {
+        //$loginEntity = App::$domain->account->login->oneById($id);
+        $loginEntity = new LoginEntity;
+        $loginEntity->id = $id;
+        $loginEntity->token = self::forgeTokenById($id);
+        \App::$domain->account->auth->login($loginEntity);
+    }
+
     public static function auth($login, $password = 'Wwwqqq111') {
         App::$domain->account->auth->logout();
         $loginForm = new LoginForm;
         $loginForm->login = $login;
         $loginForm->password = $password;
-        $loginEntity = App::$domain->account->auth->authenticationFromApi($loginForm);
+        $loginEntity = App::$domain->account->auth->authentication($login, $password);
         App::$domain->account->auth->login($loginEntity);
         return $loginEntity;
     }
