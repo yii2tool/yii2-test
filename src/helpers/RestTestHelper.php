@@ -28,6 +28,15 @@ class RestTestHelper {
         $responseEntity = self::sendRequest($requestEntity);
     }
 
+    public static function getActivationCodeByPhone($phone) {
+        $smsEntity = self::oneSmsByPhone($phone);
+        $code = '';
+        if (preg_match('/([0-9]{6})/s', $smsEntity->message, $matches)) {
+            $code = $matches[1];
+        }
+        return $code;
+    }
+
     public static function oneSmsByPhone($phone) : TestEntity {
 
         $oldIdentity = App::$domain->account->auth->identity;
