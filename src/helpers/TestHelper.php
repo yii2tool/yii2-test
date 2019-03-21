@@ -10,14 +10,16 @@ class TestHelper {
 	
 	const PACKAGE_TEST_DB_FILE = '@common/runtime/sqlite/test.db';
 	
-	public static function copySqlite($dir) {
-		
+	public static function copySqlite($dir, $isForce = true) {
 		$sourceFile = $dir . '/db/test.db';
 		$targetFile = ROOT_DIR . '/common/runtime/sqlite/test.db';
-		if(!FileHelper::has($sourceFile)) {
-			return;
-		}
-		FileHelper::copy($sourceFile, $targetFile);
+        if(!$isForce && FileHelper::has($targetFile)) {
+            return;
+        }
+        if(!FileHelper::has($sourceFile)) {
+            return;
+        }
+        FileHelper::copy($sourceFile, $targetFile);
 	}
 	
 	public static function loadEnvFromPath($path) {
