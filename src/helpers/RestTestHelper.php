@@ -37,7 +37,25 @@ class RestTestHelper {
         return $code;
     }
 
-    public static function oneSmsByPhone($phone) : TestEntity {
+	public static function authByLogin($login, $password = 'Wwwqqq111') {
+	    if(isset(self::$tokenCollection[$login])) {
+            self::auth(self::$tokenCollection[$login]);
+            return;
+        }
+        $requestEntity = new RequestEntity;
+        $requestEntity->method = HttpMethodEnum::POST;
+        $requestEntity->uri = 'v1/auth';
+        $requestEntity->data = [
+            'login' => $login,
+            'password' => $password,
+        ];
+        $responseEntity = self::sendRequest($requestEntity);
+        $loginEntity = new LoginEntity($responseEntity->data);
+        self::auth($loginEntity);
+        self::$tokenCollection[$login] = $loginEntity;
+	}
+
+    private static function oneSmsByPhone($phone) : TestEntity {
 
         $oldIdentity = App::$domain->account->auth->identity;
         self::authByLogin('admin');
@@ -64,24 +82,6 @@ class RestTestHelper {
 
         return $smsEntity;
     }
-
-	public static function authByLogin($login, $password = 'Wwwqqq111') {
-	    if(isset(self::$tokenCollection[$login])) {
-            self::auth(self::$tokenCollection[$login]);
-            return;
-        }
-        $requestEntity = new RequestEntity;
-        $requestEntity->method = HttpMethodEnum::POST;
-        $requestEntity->uri = 'v1/auth';
-        $requestEntity->data = [
-            'login' => $login,
-            'password' => $password,
-        ];
-        $responseEntity = self::sendRequest($requestEntity);
-        $loginEntity = new LoginEntity($responseEntity->data);
-        self::auth($loginEntity);
-        self::$tokenCollection[$login] = $loginEntity;
-	}
 
     private static function auth(LoginEntity $loginEntity) {
         App::$domain->account->auth->login($loginEntity);
