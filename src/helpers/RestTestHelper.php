@@ -10,6 +10,7 @@ use yii2lab\notify\domain\enums\TypeEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\rest\domain\helpers\RestHelper;
+use yii2mod\helpers\ArrayHelper;
 use yii2rails\app\domain\helpers\Config;
 use yii2rails\app\domain\helpers\Env;
 use yii2rails\app\domain\helpers\EnvService;
@@ -19,52 +20,9 @@ use yubundle\account\domain\v2\entities\LoginEntity;
 use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
 
 class RestTestHelper {
-    
-    //private static $tokenCollection = [];
 
-    public static function cleanSms() {
-        $requestEntity = new RequestEntity;
-        $requestEntity->method = HttpMethodEnum::DELETE;
-        $requestEntity->uri = 'v1/notify-test';
-        $responseEntity = self::sendRequest($requestEntity);
-    }
-
-    public static function getActivationCodeByPhone($phone) {
-        $smsEntity = self::oneSmsByPhone($phone);
-        $code = '';
-        if (preg_match('/([0-9]{6})/s', $smsEntity->message, $matches)) {
-            $code = $matches[1];
-        }
-        return $code;
-    }
-
-    private static function oneSmsByPhone($phone) : TestEntity {
-
-        $oldIdentity = AuthTestHelper::getIdentity();
-        AuthTestHelper::authByLogin('admin');
-
-        $requestEntity = new RequestEntity;
-        $requestEntity->method = HttpMethodEnum::GET;
-        $requestEntity->uri = 'v1/notify-test';
-        $requestEntity->data = [
-            'type' => TypeEnum::SMS,
-            'phone' => $phone,
-            'sort' => '-address',
-        ];
-        $responseEntity = self::sendRequest($requestEntity);
-        $collection = $responseEntity->data;
-        if(empty($collection)) {
-            throw new NotFoundHttpException('Sms not found');
-        }
-        $smsEntity = new TestEntity($collection[0]);
-
-        if($oldIdentity == null) {
-            AuthTestHelper::logout();
-        } else {
-            AuthTestHelper::login($oldIdentity);
-        }
-
-        return $smsEntity;
+    public static function getBaseUrl() {
+        return EnvService::get('url.test-api');
     }
 
     public static function sendRequest(RequestEntity $requestEntity) : ResponseEntity {
@@ -81,7 +39,7 @@ class RestTestHelper {
     protected static function prepareUri(RequestEntity $requestEntity) {
         $uri = $requestEntity->uri;
 
-        $host = EnvService::get('url.test-api');
+        $host = self::getBaseUrl();
         $host = trim($host, SL);
 
         $requestEntity->uri = $host;

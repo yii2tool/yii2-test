@@ -18,12 +18,9 @@ class BaseApiTest extends Rest
     protected function sendRequest(RequestEntity $requestEntity) : ResponseEntity {
         $this->prepareUri($requestEntity);
         return RestTestHelper::sendRequest($requestEntity);
-        //$this->prepareRequest($requestEntity);
-        //return RestHelper::sendRequest($requestEntity);
     }
 
     protected function prepareUri(RequestEntity $requestEntity) {
-        //$requestEntity->uri = $this->url($this->point);
         $requestEntity->uri = trim($this->point . SL . $requestEntity->uri, SL);
     }
 
