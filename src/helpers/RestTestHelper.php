@@ -16,10 +16,11 @@ use yii2rails\app\domain\helpers\EnvService;
 use yii2rails\extension\web\enums\HttpMethodEnum;
 use yii2rails\extension\yii\helpers\FileHelper;
 use yubundle\account\domain\v2\entities\LoginEntity;
+use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
 
 class RestTestHelper {
     
-    private static $tokenCollection = [];
+    //private static $tokenCollection = [];
 
     public static function cleanSms() {
         $requestEntity = new RequestEntity;
@@ -37,28 +38,10 @@ class RestTestHelper {
         return $code;
     }
 
-	public static function authByLogin($login, $password = 'Wwwqqq111') {
-	    if(isset(self::$tokenCollection[$login])) {
-            self::auth(self::$tokenCollection[$login]);
-            return;
-        }
-        $requestEntity = new RequestEntity;
-        $requestEntity->method = HttpMethodEnum::POST;
-        $requestEntity->uri = 'v1/auth';
-        $requestEntity->data = [
-            'login' => $login,
-            'password' => $password,
-        ];
-        $responseEntity = self::sendRequest($requestEntity);
-        $loginEntity = new LoginEntity($responseEntity->data);
-        self::auth($loginEntity);
-        self::$tokenCollection[$login] = $loginEntity;
-	}
-
     private static function oneSmsByPhone($phone) : TestEntity {
 
-        $oldIdentity = App::$domain->account->auth->identity;
-        self::authByLogin('admin');
+        $oldIdentity = AuthTestHelper::getIdentity();
+        AuthTestHelper::authByLogin('admin');
 
         $requestEntity = new RequestEntity;
         $requestEntity->method = HttpMethodEnum::GET;
@@ -66,6 +49,7 @@ class RestTestHelper {
         $requestEntity->data = [
             'type' => TypeEnum::SMS,
             'phone' => $phone,
+            'sort' => '-address',
         ];
         $responseEntity = self::sendRequest($requestEntity);
         $collection = $responseEntity->data;
@@ -75,19 +59,15 @@ class RestTestHelper {
         $smsEntity = new TestEntity($collection[0]);
 
         if($oldIdentity == null) {
-            App::$domain->account->auth->logout();
+            AuthTestHelper::logout();
         } else {
-            self::authByLogin($oldIdentity->login);
+            AuthTestHelper::login($oldIdentity);
         }
 
         return $smsEntity;
     }
 
-    private static function auth(LoginEntity $loginEntity) {
-        App::$domain->account->auth->login($loginEntity);
-    }
-
-    protected static function sendRequest(RequestEntity $requestEntity) : ResponseEntity {
+    public static function sendRequest(RequestEntity $requestEntity) : ResponseEntity {
         self::prepareRequest($requestEntity);
         return RestHelper::sendRequest($requestEntity);
     }
@@ -117,7 +97,7 @@ class RestTestHelper {
     }
 
     protected static function prepareAuthorization(RequestEntity $requestEntity) {
-        $loginEntity = App::$domain->account->auth->identity;
+        $loginEntity = AuthTestHelper::getIdentity();
         if($loginEntity == null) {
             return;
         }
