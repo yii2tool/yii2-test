@@ -13,7 +13,7 @@ use yii2rails\app\domain\helpers\EnvService;
  *
  * @package yii2lab\test\Test
  *
- * @property \RestTester $tester
+ * @property \RestTester|\UnitTester $tester
  */
 class Rest extends \Codeception\Test\Unit {
 	
