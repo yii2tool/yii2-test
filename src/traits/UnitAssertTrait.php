@@ -148,7 +148,19 @@ trait UnitAssertTrait
 		}
 		$this->assertTrue(false);
 	}
-	
+
+    public function assertArrayType(array $expect, $entity, $isStrict = true) {
+        foreach($expect as $field => $type) {
+            if($isStrict && !isset($entity[$field])) {
+                $this->assertTrue(false, 'Attribute not exists in array!');
+            }
+            if($isStrict || array_key_exists($field, $entity)) {
+                $value = $entity[$field];
+                $this->assertInternalType($type, $value);
+            }
+        }
+    }
+
 	public function assertEntityFormat(array $expect, BaseEntity $entity, $isStrict = true) {
 		foreach($expect as $field => $type) {
 			if($isStrict && !$entity->hasProperty($field)) {
