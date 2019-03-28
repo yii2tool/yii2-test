@@ -3,8 +3,10 @@
 namespace yii2lab\test\traits;
 
 use Throwable;
+use yii\base\InvalidArgumentException;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
+use yii2lab\test\enums\TypeEnum;
 use yii2rails\domain\BaseEntity;
 use yii2rails\domain\data\EntityCollection;
 use yii2rails\domain\exceptions\UnprocessableEntityHttpException;
@@ -151,14 +153,48 @@ trait UnitAssertTrait
 
     public function assertArrayType(array $expect, $entity, $isStrict = true) {
         foreach($expect as $field => $type) {
-            if($isStrict && !isset($entity[$field])) {
-                $this->assertTrue(false, 'Attribute not exists in array!');
+            if($isStrict && !array_key_exists($field, $entity)) {
+                $this->assertTrue(false, "Attribute \"{$field}\" not exists!");
             }
             if($isStrict || array_key_exists($field, $entity)) {
                 $value = $entity[$field];
-                $this->assertInternalType($type, $value);
+                if(is_array($type)) {
+                    $rr = 0;
+                    foreach ($type as $typeItem) {
+                        $result = $this->assertType($field, $typeItem, $value);
+                        if($result) {
+                            $rr++;
+                        }
+                    }
+                    if($rr == 0) {
+                        throw new InvalidArgumentException("$field, $value");
+                    }
+                } else {
+                    $result = $this->assertType($field, $type, $value);
+                    if(!$result) {
+                        throw new InvalidArgumentException("$field, $type, $value");
+                    }
+                }
             }
         }
+    }
+
+    protected function assertType($field, $type, $value) {
+        if($type == TypeEnum::TIME) {
+            $dateTime = new \DateTime($value);
+        } elseif($type == TypeEnum::NULL) {
+            if($value !== null) {
+                return false;
+            }
+        } else {
+            try {
+                $this->assertInternalType($type, $value);
+                return true;
+            } catch (\PHPUnit\Framework\Exception $e) {
+                return false;
+            }
+        }
+        return true;
     }
 
 	public function assertEntityFormat(array $expect, BaseEntity $entity, $isStrict = true) {
