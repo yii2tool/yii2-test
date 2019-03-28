@@ -151,6 +151,12 @@ trait UnitAssertTrait
 		$this->assertTrue(false);
 	}
 
+    public function assertCollectionType(array $expect, array $collection, $isStrict = true) {
+        foreach ($collection as $entity) {
+            $this->assertArrayType($expect, $entity, $isStrict);
+	    }
+    }
+
     public function assertArrayType(array $expect, $entity, $isStrict = true) {
         foreach($expect as $field => $type) {
             if($isStrict && !array_key_exists($field, $entity)) {
@@ -158,28 +164,32 @@ trait UnitAssertTrait
             }
             if($isStrict || array_key_exists($field, $entity)) {
                 $value = $entity[$field];
-                if(is_array($type)) {
-                    $rr = 0;
-                    foreach ($type as $typeItem) {
-                        $result = $this->assertType($field, $typeItem, $value);
-                        if($result) {
-                            $rr++;
-                        }
-                    }
-                    if($rr == 0) {
-                        throw new InvalidArgumentException("$field, $value");
-                    }
-                } else {
-                    $result = $this->assertType($field, $type, $value);
-                    if(!$result) {
-                        throw new InvalidArgumentException("$field, $type, $value");
-                    }
-                }
+                $this->assertType($field, $type, $value);
             }
         }
     }
 
-    protected function assertType($field, $type, $value) {
+    public function assertType($field, $type, $value) {
+        if(is_array($type)) {
+            $rr = 0;
+            foreach ($type as $typeItem) {
+                $result = $this->isValidtType($field, $typeItem, $value);
+                if($result) {
+                    $rr++;
+                }
+            }
+            if($rr == 0) {
+                throw new InvalidArgumentException("$field, $value");
+            }
+        } else {
+            $result = $this->isValidtType($field, $type, $value);
+            if(!$result) {
+                throw new InvalidArgumentException("$field, $type, $value");
+            }
+        }
+    }
+
+    protected function isValidtType($field, $type, $value) {
         if($type == TypeEnum::TIME) {
             $dateTime = new \DateTime($value);
         } elseif($type == TypeEnum::NULL) {
