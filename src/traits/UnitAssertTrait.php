@@ -59,7 +59,15 @@ trait UnitAssertTrait
 		
 		$this->assertArraySubset($expect, $p);
 	}
-	
+
+    public function assertUnprocessableEntityExceptionFields(array $expect, array $fields) {
+        $resultFields = [];
+	    foreach ($fields as $fieldArray) {
+            $resultFields[] = $fieldArray['field'];
+        }
+        $this->assertEquals($resultFields, $expect);
+    }
+
 	public function assertUnprocessableEntityExceptionMessage(array $expect, UnprocessableEntityHttpException $exception) {
 		$array = UnProcessibleHelper::assoc2indexed($exception->getErrors());
 		$this->assertEquals($expect, $array);
