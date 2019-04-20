@@ -177,11 +177,18 @@ trait UnitAssertTrait
         }
     }
 
+    public function assertValueType($type, $actual) {
+        $result = $this->isValidtType($type, $actual);
+        if(!$result) {
+            throw new InvalidArgumentException("$type, $actual");
+        }
+    }
+
     public function assertType($field, $type, $value) {
         if(is_array($type)) {
             $rr = 0;
             foreach ($type as $typeItem) {
-                $result = $this->isValidtType($field, $typeItem, $value);
+                $result = $this->isValidtType($typeItem, $value);
                 if($result) {
                     $rr++;
                 }
@@ -190,14 +197,14 @@ trait UnitAssertTrait
                 throw new InvalidArgumentException("$field, $value");
             }
         } else {
-            $result = $this->isValidtType($field, $type, $value);
+            $result = $this->isValidtType($type, $value);
             if(!$result) {
                 throw new InvalidArgumentException("$field, $type, $value");
             }
         }
     }
 
-    protected function isValidtType($field, $type, $value) {
+    protected function isValidtType($type, $value) {
         if($type == TypeEnum::TIME) {
             $dateTime = new \DateTime($value);
         } elseif($type == TypeEnum::NULL) {
