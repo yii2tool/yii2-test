@@ -3,12 +3,19 @@
 namespace yii2lab\test\Test;
 
 use yii2lab\rest\domain\entities\RequestEntity;
+use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\test\helpers\DataHelper;
+use yii2lab\test\helpers\RestContractTestHelper;
 use yii2lab\test\Test\BaseApiTest;
 use yii2rails\extension\web\enums\HttpMethodEnum;
 
 class BaseActiveApiTest extends BaseApiTest
 {
+
+    protected function assertPagination(array $expected, ResponseEntity $responseEntity) {
+        $pagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
+        $this->tester->assertEquals($expected, $pagination);
+    }
 
     protected function assertData($actual, $method, $postfix = '') {
         $expect = DataHelper::loadForTest2($this->package, $method . $postfix, $actual);
