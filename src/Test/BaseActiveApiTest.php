@@ -6,6 +6,7 @@ use api\tests\schemas\MailSchema;
 use yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\test\helpers\CurrentIdTestHelper;
+use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\test\helpers\DataHelper;
 use yii2lab\test\helpers\RestContractTestHelper;
 use yii2lab\test\Test\BaseApiTest;
@@ -88,6 +89,11 @@ class BaseActiveApiTest extends BaseApiTest
             $lastId = intval($lastId);
             CurrentIdTestHelper::set($lastId);
         }
+    }
+
+    protected function assertPagination(array $expected, ResponseEntity $responseEntity) {
+        $pagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
+        $this->tester->assertEquals($expected, $pagination);
     }
 
     protected function assertData($actual, $method, $postfix = '') {
