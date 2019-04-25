@@ -5,6 +5,8 @@ namespace yii2lab\test\Test;
 use PHPUnit\Framework\TestResult;
 use yii\helpers\ArrayHelper;
 use yii2rails\app\domain\helpers\EnvService;
+use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
+use yubundle\account\domain\v2\helpers\test\CurrentPhoneTestHelper;
 
 // todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2lab\test\Test\Unit;"
 
@@ -28,6 +30,11 @@ class Rest extends \Codeception\Test\Unit {
 			$this->url .= 'v' . $version . SL;
 		}
 	}
+
+    protected function authByNewUser() {
+        $phone = CurrentPhoneTestHelper::get();
+        AuthTestHelper::authByLogin('test' . $phone);
+    }
 
     protected function getUrlFromEnv() {
         $envConfig = include(__DIR__ . '/../../../../../common/config/env-local.php');
