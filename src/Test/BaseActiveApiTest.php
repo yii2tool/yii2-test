@@ -28,7 +28,7 @@ class BaseActiveApiTest extends BaseApiTest
 
     protected function readEntity($endpoint, $id, $schema, $query = []) : array {
         $requestEntity = new RequestEntity;
-        $requestEntity->uri = $endpoint . SL . $id;
+        $requestEntity->uri = trim($endpoint . SL . $id, SL);
         $requestEntity->data = $query;
         $requestEntity->method = HttpMethodEnum::GET;
         $responseEntity = $this->sendRequest($requestEntity);
@@ -74,6 +74,16 @@ class BaseActiveApiTest extends BaseApiTest
             $this->tester->assertEquals($pagination, $pagination);
         }
         return $actual;
+    }
+
+    protected function createEntityUnProcessible($endpoint, $data, $errorFields) {
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = $endpoint;
+        $requestEntity->method = HttpMethodEnum::POST;
+        $requestEntity->data = $data;
+        $responseEntity = $this->sendRequest($requestEntity);
+        $this->tester->assertEquals(422, $responseEntity->status_code);
+        $this->tester->assertUnprocessableEntityExceptionFields($errorFields, $responseEntity->data);
     }
 
     protected function createEntity($endpoint, $data, $isRememberLastId = false) {
