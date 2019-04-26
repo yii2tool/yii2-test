@@ -65,15 +65,28 @@ class BaseActiveApiTest extends BaseApiTest
         $actual = $responseEntity->data;
         $this->tester->assertCollectionType($schema, $actual);
         if($pagination) {
-            $pagination = ArrayHelper::merge([
-                'page' => 1,
-                'pageSize' => 20,
-                'offset' => 0,
-            ], $pagination);
-            $pagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
-            $this->tester->assertEquals($pagination, $pagination);
+            $this->readCollectionPagination($responseEntity, $pagination);
         }
         return $actual;
+    }
+
+    private function readCollectionPagination($responseEntity, $pagination) {
+        if(is_integer($pagination)) {
+            $pagination = [
+                'totalCount' => $pagination,
+            ];
+        }
+        $defaultPagination = [
+            'page' => 1,
+            'pageSize' => 20,
+            'offset' => 0,
+        ];
+        $pagination = ArrayHelper::merge($defaultPagination, $pagination);
+        if(empty($pagination['pageCount'])) {
+            $pagination['pageCount'] = ceil($pagination['totalCount'] / $pagination['pageSize']);
+        }
+        $actualPagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
+        $this->tester->assertEquals($pagination, $actualPagination);
     }
 
     protected function createEntityUnProcessible($endpoint, $data, $errorFields) {
