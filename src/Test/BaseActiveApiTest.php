@@ -89,14 +89,17 @@ class BaseActiveApiTest extends BaseApiTest
         $this->tester->assertEquals($pagination, $actualPagination);
     }
 
-    protected function createEntityUnProcessible($endpoint, $data, $errorFields) {
+    protected function createEntityUnProcessible($endpoint, $data, $errorFields = null) {
         $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->method = HttpMethodEnum::POST;
         $requestEntity->data = $data;
         $responseEntity = $this->sendRequest($requestEntity);
         $this->tester->assertEquals(422, $responseEntity->status_code);
-        $this->tester->assertUnprocessableEntityExceptionFields($errorFields, $responseEntity->data);
+        if($errorFields) {
+            $this->tester->assertUnprocessableEntityExceptionFields($errorFields, $responseEntity->data);
+        }
+        return $responseEntity->data;
     }
 
     protected function createEntity($endpoint, $data, $isRememberLastId = false) {

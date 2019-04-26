@@ -4,6 +4,8 @@ namespace yii2lab\test\Test;
 
 use PHPUnit\Framework\TestResult;
 use yii\helpers\ArrayHelper;
+use yii2lab\test\helpers\RestTestHelper;
+use yii2lab\test\helpers\TestHelper;
 use yii2rails\app\domain\helpers\EnvService;
 use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
 use yubundle\account\domain\v2\helpers\test\CurrentPhoneTestHelper;
@@ -30,6 +32,10 @@ class Rest extends \Codeception\Test\Unit {
 			$this->url .= 'v' . $version . SL;
 		}
 	}
+
+    protected function isSkipBug() {
+        return (boolean) TestHelper::getEnvLocalConfig('test.skipBug');
+    }
 
     protected function authByNewUser() {
         $phone = CurrentPhoneTestHelper::get();

@@ -21,14 +21,8 @@ use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
 
 class RestTestHelper {
 
-    public static function getEnvLocalConfig($name) {
-        $configFile = __DIR__ . '/../../../../../common/config/env-local.php';
-        $config = \yii2rails\extension\common\helpers\Helper::includeConfig($configFile);
-        return ArrayHelper::getValue($config, $name);
-    }
-
     public static function getBaseUrl() {
-        return self::getEnvLocalConfig('url.test-api');
+        return TestHelper::getEnvLocalConfig('url.test-api');
     }
 
     public static function sendRequest(RequestEntity $requestEntity) : ResponseEntity {

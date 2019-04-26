@@ -2,6 +2,7 @@
 
 namespace yii2lab\test\helpers;
 
+use yii\helpers\ArrayHelper;
 use yii2rails\app\domain\helpers\Config;
 use yii2rails\app\domain\helpers\Env;
 use yii2rails\extension\yii\helpers\FileHelper;
@@ -9,7 +10,13 @@ use yii2rails\extension\yii\helpers\FileHelper;
 class TestHelper {
 	
 	const PACKAGE_TEST_DB_FILE = '@common/runtime/sqlite/test.db';
-	
+
+    public static function getEnvLocalConfig($name, $default = null) {
+        $configFile = __DIR__ . '/../../../../../common/config/env-local.php';
+        $config = \yii2rails\extension\common\helpers\Helper::includeConfig($configFile);
+        return ArrayHelper::getValue($config, $name, $default);
+    }
+
 	public static function copySqlite($dir, $isForce = true) {
 		$sourceFile = $dir . '/db/test.db';
 		$targetFile = ROOT_DIR . '/common/runtime/sqlite/test.db';
