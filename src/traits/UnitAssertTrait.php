@@ -63,7 +63,9 @@ trait UnitAssertTrait
     public function assertUnprocessableEntityExceptionFields(array $expect, array $fields) {
         $resultFields = [];
 	    foreach ($fields as $fieldArray) {
-            $resultFields[] = $fieldArray['field'];
+	        if(!empty($fieldArray['field'])) {
+                $resultFields[] = $fieldArray['field'];
+            }
         }
         $this->assertEquals($resultFields, $expect);
     }
