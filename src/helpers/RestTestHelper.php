@@ -22,7 +22,11 @@ use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
 class RestTestHelper {
 
     public static function getBaseUrl() {
-        return TestHelper::getEnvLocalConfig('url.test-api');
+        $url = TestHelper::getEnvLocalConfig('url.test-api');
+        if(empty($url)) {
+            $url = TestHelper::getEnvLocalConfig('url.api');
+        }
+        return $url;
     }
 
     public static function sendRequest(RequestEntity $requestEntity) : ResponseEntity {

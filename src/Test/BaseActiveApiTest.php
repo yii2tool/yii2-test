@@ -18,6 +18,20 @@ use yubundle\account\domain\v2\helpers\test\CurrentPhoneTestHelper;
 class BaseActiveApiTest extends BaseApiTest
 {
 
+    protected function checkAuth($login, $password) {
+        AuthTestHelper::logout();
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = 'auth';
+        $requestEntity->method = HttpMethodEnum::POST;
+        $requestEntity->data = [
+            'login' => $login,
+            'password' => $password,
+        ];
+        $responseEntity = $this->sendRequest($requestEntity);
+        $this->tester->assertEquals(200, $responseEntity->status_code);
+        AuthTestHelper::loadPrevAuth();
+    }
+
     protected function readNotFoundEntity($endpoint, $id) {
         $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;

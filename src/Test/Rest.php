@@ -2,11 +2,8 @@
 
 namespace yii2lab\test\Test;
 
-use PHPUnit\Framework\TestResult;
 use yii\helpers\ArrayHelper;
-use yii2lab\test\helpers\RestTestHelper;
 use yii2lab\test\helpers\TestHelper;
-use yii2rails\app\domain\helpers\EnvService;
 use yubundle\account\domain\v2\helpers\test\AuthTestHelper;
 use yubundle\account\domain\v2\helpers\test\CurrentPhoneTestHelper;
 
@@ -19,7 +16,7 @@ use yubundle\account\domain\v2\helpers\test\CurrentPhoneTestHelper;
  *
  * @property \RestTester|\UnitTester $tester
  */
-class Rest extends \Codeception\Test\Unit {
+class Rest extends Base {
 	
 	protected $url;
 	protected $version = null;
@@ -33,8 +30,16 @@ class Rest extends \Codeception\Test\Unit {
 		}
 	}
 
-    protected function isSkipBug() {
-        return (boolean) TestHelper::getEnvLocalConfig('test.skipBug');
+    protected function isSkipBug($message = null) {
+        $isSkip = (boolean) TestHelper::getEnvLocalConfig('test.skipBug');
+        if($isSkip) {
+            $m = 'skip bug';
+            if($message) {
+                $m .= ' - ' . $message;
+            }
+            TestHelper::printMessage($m);
+        }
+        return $isSkip;
     }
 
     protected function authByNewUser() {
@@ -57,30 +62,5 @@ class Rest extends \Codeception\Test\Unit {
 		}
 		return $url;
 	}
-	
-	/**
-	 * Count elements of an object
-	 *
-	 * @link http://php.net/manual/en/countable.count.php
-	 * @return int The custom count as an integer.
-	 * </p>
-	 * <p>
-	 * The return value is cast to an integer.
-	 * @since 5.1.0
-	 */
-	public function count() {
-		return parent::count();
-	}
-	
-	/**
-	 * Runs a test and collects its result in a TestResult instance.
-	 *
-	 * @param TestResult $result
-	 *
-	 * @return TestResult
-	 */
-	public function run(TestResult $result = null) {
-		return parent::run($result);
-	}
-	
+
 }

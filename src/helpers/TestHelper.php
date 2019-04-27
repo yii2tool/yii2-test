@@ -11,6 +11,27 @@ class TestHelper {
 	
 	const PACKAGE_TEST_DB_FILE = '@common/runtime/sqlite/test.db';
 
+    public static function isSkipBug($message = null) {
+        $isSkip = (boolean) self::getEnvLocalConfig('test.skipBug');
+        if($isSkip) {
+            $m = 'skip bug';
+            if($message) {
+                $m .= ' - ' . $message;
+            }
+            self::printMessage($m);
+        }
+        return $isSkip;
+    }
+
+    public static function printMessage($message) {
+        $m = '! >>> ' . $message . PHP_EOL;
+        fwrite(STDERR, $m);
+    }
+
+    public static function dump($message) {
+        fwrite(STDERR, print_r($message, TRUE));
+    }
+
     public static function getEnvLocalConfig($name, $default = null) {
         $configFile = __DIR__ . '/../../../../../common/config/env-local.php';
         $config = \yii2rails\extension\common\helpers\Helper::includeConfig($configFile);
