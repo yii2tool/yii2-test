@@ -48,8 +48,48 @@ class BaseActiveApiTest extends BaseApiTest
         $responseEntity = $this->sendRequest($requestEntity);
         $this->tester->assertEquals(200, $responseEntity->status_code);
         $actual = $responseEntity->data;
+        if(!empty($query['fields'])) {
+            $fields = explode(',', $query['fields']);
+            $schema = $this->filterSchemaByFields($schema, $fields);
+            $this->assertFieldsContract($actual,$schema, $fields);
+        }
         $this->tester->assertArrayType($schema, $actual);
         return $actual;
+    }
+
+    protected function readCollection($endpoint, $query, $schema, $pagination = null) : array {
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = $endpoint;
+        $requestEntity->data = $query;
+        $requestEntity->method = HttpMethodEnum::GET;
+        $responseEntity = $this->sendRequest($requestEntity);
+        $this->tester->assertEquals(200, $responseEntity->status_code);
+        $actual = $responseEntity->data;
+        if(!empty($query['fields'])) {
+            $fields = explode(',', $query['fields']);
+            $schema = $this->filterSchemaByFields($schema, $fields);
+            foreach ($actual as $entity) {
+                $this->assertFieldsContract($entity, $schema, $fields);
+            }
+        }
+        $this->tester->assertCollectionType($schema, $actual);
+        if($pagination) {
+            $this->readCollectionPagination($responseEntity, $pagination);
+        }
+        return $actual;
+    }
+
+    private function filterSchemaByFields($schema, $fields) {
+        $schema = ArrayHelper::filter($schema, $fields);
+        return $schema;
+    }
+
+    private function assertFieldsContract($actual, $schema, $fields) {
+        foreach ($actual as $key => $value) {
+            if(!in_array($key, $fields) && $value != null) {
+                $this->tester->assertTrue(false, "Field \"$key\" not null (actual: \"$value\")");
+            }
+        }
     }
 
     protected function deleteEntity($endpoint, $id) {
@@ -67,21 +107,6 @@ class BaseActiveApiTest extends BaseApiTest
         $requestEntity->data = $data;
         $responseEntity = $this->sendRequest($requestEntity);
         $this->tester->assertEquals(204, $responseEntity->status_code);
-    }
-
-    protected function readCollection($endpoint, $query, $schema, $pagination = null) : array {
-        $requestEntity = new RequestEntity;
-        $requestEntity->uri = $endpoint;
-        $requestEntity->data = $query;
-        $requestEntity->method = HttpMethodEnum::GET;
-        $responseEntity = $this->sendRequest($requestEntity);
-        $this->tester->assertEquals(200, $responseEntity->status_code);
-        $actual = $responseEntity->data;
-        $this->tester->assertCollectionType($schema, $actual);
-        if($pagination) {
-            $this->readCollectionPagination($responseEntity, $pagination);
-        }
-        return $actual;
     }
 
     private function readCollectionPagination($responseEntity, $pagination) {
@@ -131,7 +156,7 @@ class BaseActiveApiTest extends BaseApiTest
         }
     }
 
-    protected function assertPagination(array $expected, ResponseEntity $responseEntity) {
+    /*protected function assertPagination(array $expected, ResponseEntity $responseEntity) {
         $pagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
         $this->tester->assertEquals($expected, $pagination);
     }
@@ -180,6 +205,6 @@ class BaseActiveApiTest extends BaseApiTest
         ];
 
         return $actual;
-    }
+    }*/
 
 }
