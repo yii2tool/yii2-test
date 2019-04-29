@@ -49,12 +49,21 @@ class BaseActiveApiTest extends BaseApiTest
         $this->tester->assertEquals(200, $responseEntity->status_code);
         $actual = $responseEntity->data;
         if(!empty($query['fields'])) {
-            $fields = explode(',', $query['fields']);
+            $fields = $this->extractFields($query);
             $schema = $this->filterSchemaByFields($schema, $fields);
             $this->assertFieldsContract($actual,$schema, $fields);
         }
         $this->tester->assertArrayType($schema, $actual);
         return $actual;
+    }
+
+    private function extractFields($query) {
+        $fields = explode(',', $query['fields']);
+        if(!empty($query['expand'])) {
+            $expand = explode(',', $query['expand']);
+            $fields = ArrayHelper::merge($fields, $expand);
+        }
+        return $fields;
     }
 
     protected function readCollection($endpoint, $query, $schema, $pagination = null) : array {
@@ -66,7 +75,7 @@ class BaseActiveApiTest extends BaseApiTest
         $this->tester->assertEquals(200, $responseEntity->status_code);
         $actual = $responseEntity->data;
         if(!empty($query['fields'])) {
-            $fields = explode(',', $query['fields']);
+            $fields = $this->extractFields($query);
             $schema = $this->filterSchemaByFields($schema, $fields);
             foreach ($actual as $entity) {
                 $this->assertFieldsContract($entity, $schema, $fields);
