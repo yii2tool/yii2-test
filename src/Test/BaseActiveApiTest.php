@@ -20,32 +20,39 @@ class BaseActiveApiTest extends BaseApiTest
 
     protected function checkAuth($login, $password) {
         AuthTestHelper::logout();
-        $requestEntity = new RequestEntity;
+        $data = [
+            'login' => $login,
+            'password' => $password,
+        ];
+        $responseEntity = $this->send('auth', HttpMethodEnum::POST, $data);
+        /*$requestEntity = new RequestEntity;
         $requestEntity->uri = 'auth';
         $requestEntity->method = HttpMethodEnum::POST;
         $requestEntity->data = [
             'login' => $login,
             'password' => $password,
         ];
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(200, $responseEntity->status_code);
         AuthTestHelper::loadPrevAuth();
     }
 
     protected function readNotFoundEntity($endpoint, $id) {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::GET);
+       /* $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;
         $requestEntity->method = HttpMethodEnum::GET;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(404, $responseEntity->status_code);
     }
 
     protected function readEntity($endpoint, $id, $schema, $query = []) : array {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::GET, $query);
+        /*$requestEntity = new RequestEntity;
         $requestEntity->uri = trim($endpoint . SL . $id, SL);
         $requestEntity->data = $query;
         $requestEntity->method = HttpMethodEnum::GET;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(200, $responseEntity->status_code);
         $actual = $responseEntity->data;
         if(!empty($query['fields'])) {
@@ -58,11 +65,12 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function readCollection($endpoint, $query, $schema, $pagination = null) : array {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint, HttpMethodEnum::GET, $query);
+        /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->data = $query;
         $requestEntity->method = HttpMethodEnum::GET;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(200, $responseEntity->status_code);
         $actual = $responseEntity->data;
         if(!empty($query['fields'])) {
@@ -102,19 +110,21 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function deleteEntity($endpoint, $id) {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::DELETE);
+       /* $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;
         $requestEntity->method = HttpMethodEnum::DELETE;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(204, $responseEntity->status_code);
     }
 
     protected function updateEntity($endpoint, $id, $data) {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::PUT, $data);
+        /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;
         $requestEntity->method = HttpMethodEnum::PUT;
         $requestEntity->data = $data;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(204, $responseEntity->status_code);
     }
 
@@ -156,11 +166,12 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function createEntityUnProcessible($endpoint, $data, $errorFields = null) {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint, HttpMethodEnum::POST, $data);
+        /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->method = HttpMethodEnum::POST;
         $requestEntity->data = $data;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(422, $responseEntity->status_code);
         if($errorFields) {
             $this->tester->assertUnprocessableEntityExceptionFields($errorFields, $responseEntity->data);
@@ -169,11 +180,12 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function createEntity($endpoint, $data, $isRememberLastId = false) {
-        $requestEntity = new RequestEntity;
+        $responseEntity = $this->send($endpoint, HttpMethodEnum::POST, $data);
+        /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->method = HttpMethodEnum::POST;
         $requestEntity->data = $data;
-        $responseEntity = $this->sendRequest($requestEntity);
+        $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(201, $responseEntity->status_code);
         if($isRememberLastId) {
             $lastId = $responseEntity->headers[HttpHeaderEnum::X_ENTITY_ID];
@@ -181,6 +193,17 @@ class BaseActiveApiTest extends BaseApiTest
             $lastId = intval($lastId);
             CurrentIdTestHelper::set($lastId);
         }
+    }
+
+    protected function send($endpoint, $method, $data = null, $expectSatausCode = null) {
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = $endpoint;
+        $requestEntity->method = $method;
+        if($data) {
+            $requestEntity->data = $data;
+        }
+        $responseEntity = $this->sendRequest($requestEntity);
+        return $responseEntity;
     }
 
     /*protected function assertPagination(array $expected, ResponseEntity $responseEntity) {
