@@ -57,15 +57,6 @@ class BaseActiveApiTest extends BaseApiTest
         return $actual;
     }
 
-    private function extractFields($query) {
-        $fields = explode(',', $query['fields']);
-        if(!empty($query['expand'])) {
-            $expand = explode(',', $query['expand']);
-            $fields = ArrayHelper::merge($fields, $expand);
-        }
-        return $fields;
-    }
-
     protected function readCollection($endpoint, $query, $schema, $pagination = null) : array {
         $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
@@ -93,6 +84,15 @@ class BaseActiveApiTest extends BaseApiTest
         return $schema;
     }
 
+    private function extractFields($query) {
+        $fields = explode(',', $query['fields']);
+        if(!empty($query['expand'])) {
+            $expand = explode(',', $query['expand']);
+            $fields = ArrayHelper::merge($fields, $expand);
+        }
+        return $fields;
+    }
+
     private function assertFieldsContract($actual, $schema, $fields) {
         foreach ($actual as $key => $value) {
             if(!in_array($key, $fields) && $value != null) {
@@ -116,6 +116,24 @@ class BaseActiveApiTest extends BaseApiTest
         $requestEntity->data = $data;
         $responseEntity = $this->sendRequest($requestEntity);
         $this->tester->assertEquals(204, $responseEntity->status_code);
+    }
+
+    protected function assertRelationContract($endpoint, $id, $schema, $query = []) {
+        $expand = [];
+        foreach ($schema as $schemaName => $schemaData) {
+            $expand[] = $schemaName;
+        }
+        $expandString = implode(',', $expand);
+        $query['expand'] = $expandString;
+
+        $actual = $this->readEntity($endpoint, $id, [], $query);
+        $this->tester->assertArrayType($schema, $actual);
+
+        $queryForCollection = $query;
+        $queryForCollection['id'] = $id;
+
+        $actual = $this->readCollection($endpoint, $queryForCollection, []);
+        $this->tester->assertArrayType($schema, $actual[0]);
     }
 
     private function readCollectionPagination($responseEntity, $pagination) {

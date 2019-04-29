@@ -167,8 +167,8 @@ trait UnitAssertTrait
 	    }
     }
 
-    public function assertArrayType(array $expect, $entity, $isStrict = true) {
-        foreach($expect as $field => $type) {
+    public function assertArrayType(array $schema, $entity, $isStrict = true) {
+        foreach($schema as $field => $type) {
             if($isStrict && !array_key_exists($field, $entity)) {
                 $this->assertTrue(false, "Attribute \"{$field}\" not exists!");
             }
@@ -188,15 +188,19 @@ trait UnitAssertTrait
 
     public function assertType($field, $type, $value) {
         if(is_array($type)) {
-            $rr = 0;
-            foreach ($type as $typeItem) {
-                $result = $this->isValidtType($typeItem, $value);
-                if($result) {
-                    $rr++;
+            if(ArrayHelper::isIndexed($type)) {
+                $rr = 0;
+                foreach ($type as $k => $typeItem) {
+                    $result = $this->isValidtType($typeItem, $value);
+                    if($result) {
+                        $rr++;
+                    }
                 }
-            }
-            if($rr == 0) {
-                throw new InvalidArgumentException("$field, $value");
+                if($rr == 0) {
+                    throw new InvalidArgumentException("$field, $value");
+                }
+            } else {
+                $this->assertArrayType($type, $value);
             }
         } else {
             $result = $this->isValidtType($type, $value);
