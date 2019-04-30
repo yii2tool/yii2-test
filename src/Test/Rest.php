@@ -47,6 +47,11 @@ class Rest extends Base {
         AuthTestHelper::authByLogin('test' . $phone);
     }
 
+    protected function authByAtUser($login) {
+        $phone = CurrentPhoneTestHelper::get();
+        AuthTestHelper::authByLogin($login, 'qvrx9f@&$B6b&');
+    }
+
     protected function getUrlFromEnv() {
         $envConfig = include(__DIR__ . '/../../../../../common/config/env-local.php');
         $url = ArrayHelper::getValue($envConfig, 'url.api');

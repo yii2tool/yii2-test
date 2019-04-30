@@ -137,13 +137,19 @@ class BaseActiveApiTest extends BaseApiTest
         $query['expand'] = $expandString;
 
         $actual = $this->readEntity($endpoint, $id, [], $query);
-        $this->tester->assertArrayType($schema, $actual);
+        $this->validateSchemas($actual, $schema);
 
         $queryForCollection = $query;
         $queryForCollection['id'] = $id;
-
         $actual = $this->readCollection($endpoint, $queryForCollection, []);
-        $this->tester->assertArrayType($schema, $actual[0]);
+        $this->validateSchemas($actual[0], $schema);
+    }
+
+    private function validateSchemas($actual, $schema) {
+        foreach ($schema as $schemaName => $schemaData) {
+            $value = ArrayHelper::getValue($actual, $schemaName);
+            $this->tester->assertArrayType($schemaData, $value);
+        }
     }
 
     private function readCollectionPagination($responseEntity, $pagination) {
