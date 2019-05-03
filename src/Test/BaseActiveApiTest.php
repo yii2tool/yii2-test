@@ -46,7 +46,7 @@ class BaseActiveApiTest extends BaseApiTest
         $this->tester->assertEquals(404, $responseEntity->status_code);
     }
 
-    protected function readEntity($endpoint, $id, $schema, $query = []) : array {
+    protected function readEntity($endpoint, $id, $schema = [], $query = []) : array {
         $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::GET, $query);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = trim($endpoint . SL . $id, SL);
@@ -81,7 +81,7 @@ class BaseActiveApiTest extends BaseApiTest
             }
         }
         $this->tester->assertCollectionType($schema, $actual);
-        if($pagination) {
+        if($pagination !== null) {
             $this->readCollectionPagination($responseEntity, $pagination);
         }
         return $actual;
