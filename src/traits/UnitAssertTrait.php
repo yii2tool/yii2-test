@@ -67,6 +67,8 @@ trait UnitAssertTrait
                 $resultFields[] = $fieldArray['field'];
             }
         }
+        sort($resultFields);
+        sort($expect);
         $this->assertEquals($resultFields, $expect);
     }
 
