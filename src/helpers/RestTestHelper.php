@@ -54,7 +54,12 @@ class RestTestHelper {
 
     protected static function prepareLanguage(RequestEntity $requestEntity) {
         $headers = $requestEntity->headers;
-        $headers['Language'] = 'xx';
+        $lang = LangTestHelper::get();
+        if($lang) {
+            $headers['Language'] = $lang;
+        } else {
+            $headers['Language'] = 'xx';
+        }
         $requestEntity->headers = $headers;
     }
 
