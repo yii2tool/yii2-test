@@ -165,7 +165,7 @@ class BaseActiveApiTest extends BaseApiTest
         ];
         $pagination = ArrayHelper::merge($defaultPagination, $pagination);
         if(empty($pagination['pageCount'])) {
-            $pagination['pageCount'] = ceil($pagination['totalCount'] / $pagination['pageSize']);
+            $pagination['pageCount'] = intval(ceil($pagination['totalCount'] / $pagination['pageSize']));
         }
         $actualPagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
         $this->tester->assertEquals($pagination, $actualPagination);
