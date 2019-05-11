@@ -1,52 +1,39 @@
 <?php
 
 return [
-	[
-		'id' => 381949,
-		'login' => '77771111111',
+	1 => [
+		'id' => 1,
+		'login' => 'admin',
 		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
+		'created_at' => null,
+		'updated_at' => null,
 	],
-	[
-		'id' => 385533,
-		'login' => '77779991231',
+	2 => [
+		'id' => 2,
+		'login' => 'tester1',
 		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
+		'created_at' => null,
+		'updated_at' => null,
 	],
-	[
-		'id' => 372347,
-		'login' => '77084864004',
+	4 => [
+		'id' => 4,
+		'login' => 'reporter1',
 		'status' => 1,
-		'created_at' => '2017-11-16 08:37:32',
+		'created_at' => null,
+		'updated_at' => null,
 	],
-	[
-		'id' => 381069,
-		'login' => '77783177384',
+	3 => [
+		'id' => 3,
+		'login' => 'tester2',
 		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
+		'created_at' => null,
+		'updated_at' => null,
 	],
-	[
-		'id' => 381070,
-		'login' => '77751112233',
+	5 => [
+		'id' => 5,
+		'login' => 'reporter2',
 		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
-	],
-	[
-		'id' => 375664,
-		'login' => '77127113312',
-		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
-	],
-	[
-		'id' => 381075,
-		'login' => '70000000022',
-		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
-	],
-	[
-		'id' => 381076,
-		'login' => '77471105109',
-		'status' => 1,
-		'created_at' => '2018-03-28 21:00:13',
+		'created_at' => null,
+		'updated_at' => null,
 	],
 ];

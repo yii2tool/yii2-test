@@ -1,51 +1,29 @@
 <?php
 
-$passwordHash = '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.';
-
 return [
-	[
+	1 => [
 		'id' => 1,
-		'identity_id' => 381949,
-		'password_hash' => $passwordHash,
+		'identity_id' => 1,
+		'password_hash' => '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.',
 	],
-	[
+	2 => [
 		'id' => 2,
-		'identity_id' => 381069,
-		'password_hash' => $passwordHash,
+		'identity_id' => 2,
+		'password_hash' => '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.',
 	],
-	[
+	3 => [
 		'id' => 3,
-		'identity_id' => 381070,
-		'password_hash' => $passwordHash,
+		'identity_id' => 3,
+		'password_hash' => '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.',
 	],
-	[
+	4 => [
 		'id' => 4,
-		'identity_id' => 375664,
-		'password_hash' => $passwordHash,
+		'identity_id' => 4,
+		'password_hash' => '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.',
 	],
-	[
+	5 => [
 		'id' => 5,
-		'identity_id' => 381072,
-		'password_hash' => $passwordHash,
-	],
-	[
-		'id' => 6,
-		'identity_id' => 381073,
-		'password_hash' => $passwordHash,
-	],
-	[
-		'id' => 7,
-		'identity_id' => 381074,
-		'password_hash' => $passwordHash,
-	],
-	[
-		'id' => 8,
-		'identity_id' => 381075,
-		'password_hash' => $passwordHash,
-	],
-	[
-		'id' => 9,
-		'identity_id' => 381076,
-		'password_hash' => $passwordHash,
+		'identity_id' => 5,
+		'password_hash' => '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.',
 	],
 ];
