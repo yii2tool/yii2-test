@@ -1,50 +1,51 @@
 <?php
 
-use yii2module\account\domain\v2\helpers\UserFixture;
-
-$passwordHash = '$2y$13$Xt.Zo0sIeIPi6CvraoUB1eihsZO3pFXx4rcYGWL9jGRr0YybqCqdK';
+$passwordHash = '$2y$10$VeTx5VTpb4AGoLRO6FfVxuNM5Xqbf7SgbC1LMvuMAi28RB9v3lPj.';
 
 return [
 	[
-		'id' => 381949,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg1',
+		'id' => 1,
+		'identity_id' => 381949,
 		'password_hash' => $passwordHash,
 	],
 	[
-		'id' => 385533,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg2',
+		'id' => 2,
+		'identity_id' => 381069,
 		'password_hash' => $passwordHash,
 	],
 	[
-		'id' => 381069,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg3',
+		'id' => 3,
+		'identity_id' => 381070,
 		'password_hash' => $passwordHash,
 	],
 	[
-		'id' => 381070,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg4',
+		'id' => 4,
+		'identity_id' => 375664,
 		'password_hash' => $passwordHash,
 	],
 	[
-		'id' => 375664,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg5',
+		'id' => 5,
+		'identity_id' => 381072,
 		'password_hash' => $passwordHash,
 	],
 	[
-		'id' => 381075,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg6',
+		'id' => 6,
+		'identity_id' => 381073,
 		'password_hash' => $passwordHash,
 	],
 	[
-		'id' => 381076,
-		//'email' => null,
-		//'auth_key' => 'CUc6h7DyU07Lbru0QWu4-jb0Tiz15qWQZZ8IIix0sq5XO6-nWbtmImx93aTq4Cg7',
+		'id' => 7,
+		'identity_id' => 381074,
+		'password_hash' => $passwordHash,
+	],
+	[
+		'id' => 8,
+		'identity_id' => 381075,
+		'password_hash' => $passwordHash,
+	],
+	[
+		'id' => 9,
+		'identity_id' => 381076,
 		'password_hash' => $passwordHash,
 	],
 ];
