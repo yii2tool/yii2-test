@@ -156,14 +156,14 @@ trait FunctionalTesterTrait
 		return $token;
 	}
 	
-	public function authAsRole($role = null) {
+	/*public function authAsRole($role = null) {
 		$login = null;
 		if($role) {
 			$user = $loginList = \App::$domain->account->test->getOneByRole($role);
 			$login = $user->login;
 		}
 		return self::auth($login);
-	}
+	}*/
 	
 	public function dontSeeValidationError($message)
 	{
