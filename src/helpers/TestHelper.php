@@ -3,6 +3,7 @@
 namespace yii2lab\test\helpers;
 
 use yii\helpers\ArrayHelper;
+use yii2rails\app\domain\enums\YiiEnvEnum;
 use yii2rails\app\domain\helpers\Config;
 use yii2rails\app\domain\helpers\Env;
 use yii2rails\extension\yii\helpers\FileHelper;
@@ -10,6 +11,27 @@ use yii2rails\extension\yii\helpers\FileHelper;
 class TestHelper {
 	
 	const PACKAGE_TEST_DB_FILE = '@common/runtime/sqlite/test.db';
+
+    public static function getMode() {
+        return self::getEnvLocalConfig('test.mode', YiiEnvEnum::DEV);
+    }
+
+    public static function getServerConfig($key) {
+        $mode = TestHelper::getMode();
+        return TestHelper::getEnvLocalConfig('test.server.'.$mode.'.' . $key);
+    }
+
+    public static function isSkipMode($mode, $message = null) {
+        $isSkip = self::getMode() == $mode;
+        if($isSkip) {
+            $m = 'skip mode' . ' - ' . $mode;
+            if($message) {
+                $m .= ' - ' . $message;
+            }
+            self::printMessage($m);
+        }
+        return $isSkip;
+    }
 
     public static function isSkipBug($message = null) {
         $isSkip = (boolean) self::getEnvLocalConfig('test.skipBug');

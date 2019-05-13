@@ -22,10 +22,18 @@ use yii2module\account\domain\v3\helpers\test\AuthTestHelper;
 class RestTestHelper {
 
     public static function getBaseUrl() {
-        $url = TestHelper::getEnvLocalConfig('url.test-api');
-        if(empty($url)) {
-            $url = TestHelper::getEnvLocalConfig('url.api');
+        $url = TestHelper::getServerConfig('url.api');
+        if($url) {
+            return $url;
         }
+
+        $url = TestHelper::getEnvLocalConfig('url.test-api');
+        if($url) {
+            return $url;
+        }
+
+        $url = TestHelper::getEnvLocalConfig('url.api');
+
         return $url;
     }
 
