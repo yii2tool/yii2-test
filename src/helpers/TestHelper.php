@@ -22,9 +22,10 @@ class TestHelper {
     }
 
     public static function isSkipMode($mode, $message = null) {
-        $isSkip = self::getMode() == $mode;
+        $modes = ArrayHelper::toArray($mode);
+        $isSkip = in_array(self::getMode(), $modes);
         if($isSkip) {
-            $m = 'skip mode' . ' - ' . $mode;
+            $m = 'skip mode' . ' - ' . implode(', ', $modes);
             if($message) {
                 $m .= ' - ' . $message;
             }
