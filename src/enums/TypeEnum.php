@@ -9,7 +9,7 @@ class TypeEnum extends BaseEnum
 
 	//const URL = 'string:url';
 	//const DATE = 'string:date|null';
-	//const FLOAT = 'float|integer';
+	const FLOAT = 'float';
     const NULL = 'null';
 	const STRING = 'string';
     const TIME = 'string.time';
