@@ -138,7 +138,7 @@ trait FunctionalTesterTrait
 		$token = null;
 		
 		if(empty($login) || $login == 'guest') {
-			$this->haveHttpHeader('Authorization', null);
+			$this->haveHttpHeader(HttpHeaderEnum::AUTHORIZATION, null);
 			return false;
 		}
 		
@@ -152,7 +152,7 @@ trait FunctionalTesterTrait
 		$user = $this->getResponseBody();
 		$token = $user['token'];
 		
-		$this->haveHttpHeader('Authorization', $token);
+		$this->haveHttpHeader(HttpHeaderEnum::AUTHORIZATION, $token);
 		return $token;
 	}
 	
