@@ -194,7 +194,7 @@ class BaseActiveApiTest extends BaseApiTest
         $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(201, $responseEntity->status_code);
         if($isRememberLastId) {
-            $lastId = $responseEntity->headers[HttpHeaderEnum::X_ENTITY_ID];
+            $lastId = $responseEntity->getHeader(HttpHeaderEnum::X_ENTITY_ID);
             $this->tester->assertNotEmpty($lastId);
             $lastId = intval($lastId);
             CurrentIdTestHelper::set($lastId);
@@ -209,6 +209,9 @@ class BaseActiveApiTest extends BaseApiTest
             $requestEntity->data = $data;
         }
         $responseEntity = $this->sendRequest($requestEntity);
+        if($responseEntity->status_code >= 500) {
+            d($responseEntity);
+        }
         return $responseEntity;
     }
 

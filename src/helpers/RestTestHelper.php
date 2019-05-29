@@ -14,6 +14,7 @@ use yii2mod\helpers\ArrayHelper;
 use yii2rails\app\domain\helpers\Config;
 use yii2rails\app\domain\helpers\Env;
 use yii2rails\app\domain\helpers\EnvService;
+use yii2rails\extension\web\enums\HttpHeaderEnum;
 use yii2rails\extension\web\enums\HttpMethodEnum;
 use yii2rails\extension\yii\helpers\FileHelper;
 use yii2module\account\domain\v3\entities\LoginEntity;
@@ -64,9 +65,9 @@ class RestTestHelper {
         $headers = $requestEntity->headers;
         $lang = LangTestHelper::get();
         if($lang) {
-            $headers['Language'] = $lang;
+            $headers[HttpHeaderEnum::LANGUAGE] = $lang;
         } else {
-            $headers['Language'] = 'xx';
+            $headers[HttpHeaderEnum::LANGUAGE] = 'xx';
         }
         $requestEntity->headers = $headers;
     }
@@ -77,7 +78,7 @@ class RestTestHelper {
             return;
         }
         $headers = $requestEntity->headers;
-        $headers['authorization'] = $loginEntity->token;
+        $headers[HttpHeaderEnum::AUTHORIZATION] = $loginEntity->token;
         $requestEntity->headers = $headers;
     }
     
