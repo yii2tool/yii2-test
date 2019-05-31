@@ -209,7 +209,8 @@ class BaseActiveApiTest extends BaseApiTest
             $requestEntity->data = $data;
         }
         $responseEntity = $this->sendRequest($requestEntity);
-        if($responseEntity->status_code >= 500) {
+        $dumpDangerResponse = (boolean) self::getEnvLocalConfig('test.dumpDangerResponse');
+        if($responseEntity->status_code >= 500 && $dumpDangerResponse) {
             d($responseEntity);
         }
         return $responseEntity;
