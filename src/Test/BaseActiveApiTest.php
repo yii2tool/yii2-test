@@ -9,6 +9,7 @@ use yii2lab\test\helpers\CurrentIdTestHelper;
 use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\test\helpers\DataHelper;
 use yii2lab\test\helpers\RestContractTestHelper;
+use yii2lab\test\helpers\TestHelper;
 use yii2lab\test\Test\BaseApiTest;
 use yii2rails\extension\web\enums\HttpHeaderEnum;
 use yii2rails\extension\web\enums\HttpMethodEnum;
@@ -209,7 +210,7 @@ class BaseActiveApiTest extends BaseApiTest
             $requestEntity->data = $data;
         }
         $responseEntity = $this->sendRequest($requestEntity);
-        $dumpDangerResponse = (boolean) self::getEnvLocalConfig('test.dumpDangerResponse');
+        $dumpDangerResponse = (boolean) TestHelper::getEnvLocalConfig('test.dumpDangerResponse', false);
         if($responseEntity->status_code >= 500 && $dumpDangerResponse) {
             d($responseEntity);
         }
