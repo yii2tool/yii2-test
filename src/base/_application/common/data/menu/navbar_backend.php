@@ -17,6 +17,6 @@ return [
 			'label' => ['admin', 'develop'],
 		],
 		'yii2lab\applicationTemplate\backend\helpers\ToolsMenu',
-		'yii2module\vendor\admin\helpers\Menu',
+		'yii2tool\vendor\admin\helpers\Menu',
 	],
 ];
