@@ -5,7 +5,7 @@ return [
 		[
 			'label' => ['admin', 'main'],
 		],
-		'yii2module\article\admin\helpers\Menu',
+		//'yii2bundle\article\admin\helpers\Menu',
 		[
 			'label' => ['admin', 'system'],
 		],
