@@ -45,45 +45,51 @@ class BaseActiveApiTest extends BaseApiTest
         $requestEntity->method = HttpMethodEnum::GET;
         $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals(404, $responseEntity->status_code);
+        return $responseEntity;
     }
 
-    protected function readEntity($endpoint, $id, $schema = [], $query = []) : array {
+    protected function readEntity($endpoint, $id, $schema = [], $query = [], $statusCode = 200) : array {
         $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::GET, $query);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = trim($endpoint . SL . $id, SL);
         $requestEntity->data = $query;
         $requestEntity->method = HttpMethodEnum::GET;
         $responseEntity = $this->sendRequest($requestEntity);*/
-        $this->tester->assertEquals(200, $responseEntity->status_code);
+        $this->tester->assertEquals($statusCode, $responseEntity->status_code);
+
         $actual = $responseEntity->data;
-        if(!empty($query['fields'])) {
-            $fields = $this->extractFields($query);
-            $schema = $this->filterSchemaByFields($schema, $fields);
-            $this->assertFieldsContract($actual,$schema, $fields);
+        if($statusCode == 200) {
+            if(!empty($query['fields'])) {
+                $fields = $this->extractFields($query);
+                $schema = $this->filterSchemaByFields($schema, $fields);
+                $this->assertFieldsContract($actual,$schema, $fields);
+            }
+            $this->tester->assertArrayType($schema, $actual);
         }
-        $this->tester->assertArrayType($schema, $actual);
         return $actual;
     }
 
-    protected function readCollection($endpoint, $query, $schema, $pagination = null) : array {
+    protected function readCollection($endpoint, $query, $schema, $pagination = null, $statusCode = 200) : array {
         $responseEntity = $this->send($endpoint, HttpMethodEnum::GET, $query);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->data = $query;
         $requestEntity->method = HttpMethodEnum::GET;
         $responseEntity = $this->sendRequest($requestEntity);*/
-        $this->tester->assertEquals(200, $responseEntity->status_code);
+        $this->tester->assertEquals($statusCode, $responseEntity->status_code);
         $actual = $responseEntity->data;
-        if(!empty($query['fields'])) {
-            $fields = $this->extractFields($query);
-            $schema = $this->filterSchemaByFields($schema, $fields);
-            foreach ($actual as $entity) {
-                $this->assertFieldsContract($entity, $schema, $fields);
+        if($statusCode != 200) {
+            if(!empty($query['fields'])) {
+                $fields = $this->extractFields($query);
+                $schema = $this->filterSchemaByFields($schema, $fields);
+                foreach ($actual as $entity) {
+                    $this->assertFieldsContract($entity, $schema, $fields);
+                }
             }
-        }
-        $this->tester->assertCollectionType($schema, $actual);
-        if($pagination !== null) {
-            $this->readCollectionPagination($responseEntity, $pagination);
+            $this->tester->assertCollectionType($schema, $actual);
+            if($pagination !== null) {
+                $this->readCollectionPagination($responseEntity, $pagination);
+            }
         }
         return $actual;
     }
@@ -110,23 +116,25 @@ class BaseActiveApiTest extends BaseApiTest
         }
     }
 
-    protected function deleteEntity($endpoint, $id) {
+    protected function deleteEntity($endpoint, $id, $statusCode = 204) {
         $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::DELETE);
        /* $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;
         $requestEntity->method = HttpMethodEnum::DELETE;
         $responseEntity = $this->sendRequest($requestEntity);*/
-        $this->tester->assertEquals(204, $responseEntity->status_code);
+        $this->tester->assertEquals($statusCode, $responseEntity->status_code);
+        return $responseEntity;
     }
 
-    protected function updateEntity($endpoint, $id, $data) {
+    protected function updateEntity($endpoint, $id, $data, $statusCode = 204) {
         $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::PUT, $data);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;
         $requestEntity->method = HttpMethodEnum::PUT;
         $requestEntity->data = $data;
         $responseEntity = $this->sendRequest($requestEntity);*/
-        $this->tester->assertEquals(204, $responseEntity->status_code);
+        $this->tester->assertEquals($statusCode, $responseEntity->status_code);
+        return $responseEntity;
     }
 
     protected function assertRelationContract($endpoint, $id, $schema, $query = []) {
@@ -188,6 +196,7 @@ class BaseActiveApiTest extends BaseApiTest
 
     protected function createEntity($endpoint, $data, $isRememberLastId = false) {
         $responseEntity = $this->send($endpoint, HttpMethodEnum::POST, $data);
+        //d($responseEntity);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->method = HttpMethodEnum::POST;
@@ -200,6 +209,7 @@ class BaseActiveApiTest extends BaseApiTest
             $lastId = intval($lastId);
             CurrentIdTestHelper::set($lastId);
         }
+        return $responseEntity;
     }
 
     protected function send($endpoint, $method, $data = null, $expectSatausCode = null) {
