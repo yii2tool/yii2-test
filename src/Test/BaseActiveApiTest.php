@@ -194,7 +194,7 @@ class BaseActiveApiTest extends BaseApiTest
         return $responseEntity->data;
     }
 
-    protected function createEntity($endpoint, $data, $isRememberLastId = false) {
+    protected function createEntity($endpoint, $data, $isRememberLastId = false, $expectSatausCode = 201) {
         $responseEntity = $this->send($endpoint, HttpMethodEnum::POST, $data);
         //d($responseEntity);
         /*$requestEntity = new RequestEntity;
@@ -202,8 +202,8 @@ class BaseActiveApiTest extends BaseApiTest
         $requestEntity->method = HttpMethodEnum::POST;
         $requestEntity->data = $data;
         $responseEntity = $this->sendRequest($requestEntity);*/
-        $this->tester->assertEquals(201, $responseEntity->status_code);
-        if($isRememberLastId) {
+        $this->tester->assertEquals($expectSatausCode, $responseEntity->status_code);
+        if($isRememberLastId && $responseEntity->status_code == 201) {
             $lastId = $responseEntity->getHeader(HttpHeaderEnum::X_ENTITY_ID);
             $this->tester->assertNotEmpty($lastId);
             $lastId = intval($lastId);
