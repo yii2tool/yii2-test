@@ -78,7 +78,7 @@ class BaseActiveApiTest extends BaseApiTest
         $responseEntity = $this->sendRequest($requestEntity);*/
         $this->tester->assertEquals($statusCode, $responseEntity->status_code);
         $actual = $responseEntity->data;
-        if($statusCode != 200) {
+        if($statusCode == 200) {
             if(!empty($query['fields'])) {
                 $fields = $this->extractFields($query);
                 $schema = $this->filterSchemaByFields($schema, $fields);
