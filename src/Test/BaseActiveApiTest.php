@@ -127,7 +127,7 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function updateEntity($endpoint, $id, $data, $statusCode = 204) {
-        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::PUT, $data);
+        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::PUT, $data, $statusCode);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint . SL . $id;
         $requestEntity->method = HttpMethodEnum::PUT;
@@ -221,7 +221,8 @@ class BaseActiveApiTest extends BaseApiTest
         }
         $responseEntity = $this->sendRequest($requestEntity);
         $dumpDangerResponse = (boolean) TestHelper::getEnvLocalConfig('test.dumpDangerResponse', false);
-        if($responseEntity->status_code >= 500 && $dumpDangerResponse) {
+
+        if($responseEntity->status_code >= 500 && $dumpDangerResponse && $expectSatausCode != $responseEntity->status_code) {
             d($responseEntity);
         }
         return $responseEntity;
