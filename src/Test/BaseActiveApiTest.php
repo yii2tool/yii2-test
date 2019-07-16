@@ -11,6 +11,8 @@ use yii2lab\test\helpers\DataHelper;
 use yii2lab\test\helpers\RestContractTestHelper;
 use yii2lab\test\helpers\TestHelper;
 use yii2lab\test\Test\BaseApiTest;
+use yii2rails\extension\common\helpers\Helper;
+use yii2rails\extension\common\helpers\TempHelper;
 use yii2rails\extension\web\enums\HttpHeaderEnum;
 use yii2rails\extension\web\enums\HttpMethodEnum;
 use yii2module\account\domain\v3\helpers\test\AuthTestHelper;
@@ -18,6 +20,28 @@ use yii2module\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
 
 class BaseActiveApiTest extends BaseApiTest
 {
+
+    protected function uploadRandomFileToPersonal() {
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = 'storage-personal';
+        $requestEntity->method = HttpMethodEnum::POST;
+        $extId = Helper::microtimeId();
+        $fileName = TempHelper::save($extId . '.data', $extId);
+        $requestEntity->files = [
+            'file' => $fileName,
+        ];
+        $responseEntity = $this->sendRequest($requestEntity);
+        $this->tester->assertEquals(201, $responseEntity->status_code);
+        $lastId = $this->getLastId($responseEntity);
+        return $lastId;
+    }
+
+    protected function getLastId(ResponseEntity $responseEntity) {
+        $lastId = $responseEntity->getHeader(HttpHeaderEnum::X_ENTITY_ID);
+        $this->tester->assertNotEmpty($lastId);
+        $lastId = intval($lastId);
+        return $lastId;
+    }
 
     protected function checkAuth($login, $password) {
         AuthTestHelper::logout();
