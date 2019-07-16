@@ -21,11 +21,23 @@ use yii2module\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
 class BaseActiveApiTest extends BaseApiTest
 {
 
-    protected function uploadRandomFileToPersonal() {
+    protected function assertRemoteFile($url, $content) {
+        /*$requestEntity = new RequestEntity;
+        $requestEntity->uri = $url;
+        $responseEntity = RestHelper::sendRequest($requestEntity);
+        d($responseEntity);*/
+
+        $contentActual = file_get_contents($url);
+        $this->tester->assertEquals($content, $contentActual);
+    }
+
+    protected function uploadRandomFileToPersonal($extId = null) {
         $requestEntity = new RequestEntity;
         $requestEntity->uri = 'storage-personal';
         $requestEntity->method = HttpMethodEnum::POST;
-        $extId = Helper::microtimeId();
+        if(empty($extId)) {
+            $extId = Helper::microtimeId();
+        }
         $fileName = TempHelper::save($extId . '.data', $extId);
         $requestEntity->files = [
             'file' => $fileName,
