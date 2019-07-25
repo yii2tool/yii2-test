@@ -261,7 +261,7 @@ class BaseActiveApiTest extends BaseApiTest
         if($responseEntity->status_code >= 500 && $dumpDangerResponse && $expectSatausCode != $responseEntity->status_code) {
             d($responseEntity);
         }
-        if($responseEntity->status_code >= 400 && $dumpDangerResponse && $responseEntity->status_code < 500) {
+        if($responseEntity->status_code >= 400 && $dumpDangerResponse && $expectSatausCode < 500) {
             d($responseEntity);
         }
 
