@@ -198,6 +198,11 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     private function readCollectionPagination($responseEntity, $pagination) {
+        $actualPagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
+        if($pagination === true) {
+            $this->tester->assertTrue($actualPagination['totalCount'] >= 1, 'Empty collection');
+            $pagination = intval($actualPagination['totalCount']);
+        }
         if(is_integer($pagination)) {
             $pagination = [
                 'totalCount' => $pagination,
@@ -212,7 +217,6 @@ class BaseActiveApiTest extends BaseApiTest
         if(empty($pagination['pageCount'])) {
             $pagination['pageCount'] = intval(ceil($pagination['totalCount'] / $pagination['pageSize']));
         }
-        $actualPagination = RestContractTestHelper::extractPaginationFromResponseEntity($responseEntity);
         $this->tester->assertEquals($pagination, $actualPagination);
     }
 
