@@ -1,6 +1,6 @@
 <?php
 
-use yii2module\lang\domain\enums\LanguageEnum;
+use yii2bundle\lang\domain\enums\LanguageEnum;
 
 $commonDir = '@yii2lab/test/base/_application/common';
 
@@ -21,18 +21,18 @@ return [
 					'levels' => ['error', 'warning'],
 					'except' => [
 						'yii\web\HttpException:*',
-						YII_ENV_TEST ? 'yii2module\lang\domain\i18n\PhpMessageSource::loadMessages' : null,
+						YII_ENV_TEST ? 'yii2bundle\lang\domain\i18n\PhpMessageSource::loadMessages' : null,
 					],
 				],
 			],
 			'traceLevel' => 0,
 		],
-		'authManager' => 'yii2lab\rbac\domain\rbac\PhpManager',
+		'authManager' => 'yii2bundle\rbac\domain\rbac\PhpManager',
 		'cache' => [
 			'class' => 'yii\caching\ArrayCache',
 		],
 		'i18n' => [
-			'class' => 'yii2module\lang\domain\i18n\I18N',
+			'class' => 'yii2bundle\lang\domain\i18n\I18N',
 			'aliases' => [
 				'*' => '@yii2lab/test/base/_application/common/messages',
 			],

@@ -12,7 +12,7 @@ use yii2rails\domain\data\EntityCollection;
 use yii2rails\domain\exceptions\UnprocessableEntityHttpException;
 use yii2rails\extension\common\enums\RegexpPatternEnum;
 use yii2rails\extension\common\helpers\UrlHelper;
-use yii2module\error\domain\helpers\UnProcessibleHelper;
+use yii2bundle\error\domain\helpers\UnProcessibleHelper;
 
 trait UnitAssertTrait
 {
