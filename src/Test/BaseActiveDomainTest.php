@@ -1,16 +1,16 @@
 <?php
 
-namespace yii2lab\test\Test;
+namespace yii2tool\test\Test;
 
 use yii\web\NotFoundHttpException;
-use yii2lab\test\Test\Unit;
+use yii2tool\test\Test\Unit;
 use yii\data\DataProviderInterface;
 use yii\helpers\ArrayHelper;
-use yii2lab\test\helpers\DataHelper;
+use yii2tool\test\helpers\DataHelper;
 use yii2rails\domain\BaseEntity;
 use App;
 use domain\mail\v1\interfaces\services\BoxInterface;
-use yii2lab\test\Test\BaseDomainTest;
+use yii2tool\test\Test\BaseDomainTest;
 use yii2rails\domain\data\Query;
 use yii2rails\domain\services\base\BaseService;
 

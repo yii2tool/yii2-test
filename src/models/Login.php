@@ -1,5 +1,5 @@
 <?php
-namespace yii2lab\test\models;
+namespace yii2tool\test\models;
 
 use yii2rails\extension\store\ActiveStore;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test\enums;
+namespace yii2tool\test\enums;
 
 use yii2rails\extension\enum\base\BaseEnum;
 

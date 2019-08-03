@@ -1,12 +1,12 @@
 <?php
 
-namespace yii2lab\test\traits;
+namespace yii2tool\test\traits;
 
 use Throwable;
 use yii\base\InvalidArgumentException;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
-use yii2lab\test\enums\TypeEnum;
+use yii2tool\test\enums\TypeEnum;
 use yii2rails\domain\BaseEntity;
 use yii2rails\domain\data\EntityCollection;
 use yii2rails\domain\exceptions\UnprocessableEntityHttpException;

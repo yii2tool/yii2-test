@@ -1,18 +1,18 @@
 <?php
 
-namespace yii2lab\test\Test;
+namespace yii2tool\test\Test;
 
 use PHPUnit\Framework\TestResult;
 use yii\helpers\ArrayHelper;
-use yii2lab\test\helpers\DataHelper;
+use yii2tool\test\helpers\DataHelper;
 use UnitTester;
 
-// todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2lab\test\Test\Unit;"
+// todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2tool\test\Test\Unit;"
 
 /**
  * Class Unit
  *
- * @package yii2lab\test\Test
+ * @package yii2tool\test\Test
  *
  * @property UnitTester $tester
  */

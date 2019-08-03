@@ -1,16 +1,16 @@
 <?php
 
-namespace yii2lab\test\Test;
+namespace yii2tool\test\Test;
 
 use api\tests\schemas\MailSchema;
 use yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
-use yii2lab\test\helpers\CurrentIdTestHelper;
+use yii2tool\test\helpers\CurrentIdTestHelper;
 use yii2lab\rest\domain\entities\ResponseEntity;
-use yii2lab\test\helpers\DataHelper;
-use yii2lab\test\helpers\RestContractTestHelper;
-use yii2lab\test\helpers\TestHelper;
-use yii2lab\test\Test\BaseApiTest;
+use yii2tool\test\helpers\DataHelper;
+use yii2tool\test\helpers\RestContractTestHelper;
+use yii2tool\test\helpers\TestHelper;
+use yii2tool\test\Test\BaseApiTest;
 use yii2rails\extension\common\helpers\Helper;
 use yii2rails\extension\common\helpers\TempHelper;
 use yii2rails\extension\web\enums\HttpHeaderEnum;

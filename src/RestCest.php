@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test;
+namespace yii2tool\test;
 
 use api\tests\FunctionalTester;
 use Yii;

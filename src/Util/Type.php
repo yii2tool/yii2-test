@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test\Util;
+namespace yii2tool\test\Util;
 
 class Type
 {

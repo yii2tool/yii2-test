@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test\base\_application\common\enums\app;
+namespace yii2tool\test\base\_application\common\enums\app;
 
 use yii2lab\rest\domain\enums\BaseApiVersionEnum;
 

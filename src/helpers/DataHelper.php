@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test\helpers;
+namespace yii2tool\test\helpers;
 
 use App;
 use yii\data\BaseDataProvider;

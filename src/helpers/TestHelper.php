@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test\helpers;
+namespace yii2tool\test\helpers;
 
 use yii\helpers\ArrayHelper;
 use yii2rails\app\domain\enums\YiiEnvEnum;

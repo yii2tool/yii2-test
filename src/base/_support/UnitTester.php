@@ -1,8 +1,8 @@
 <?php
 
-namespace yii2lab\test\base\_support;
+namespace yii2tool\test\base\_support;
 
-use yii2lab\test\traits\UnitAssertTrait;
+use yii2tool\test\traits\UnitAssertTrait;
 
 /**
  * Inherited Methods

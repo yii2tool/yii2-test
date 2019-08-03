@@ -1,13 +1,13 @@
 <?php
 
-namespace yii2lab\test\Test;
+namespace yii2tool\test\Test;
 
 use App;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\rest\domain\helpers\RestHelper;
-use yii2lab\test\helpers\RestTestHelper;
-use yii2lab\test\Test\Rest;
+use yii2tool\test\helpers\RestTestHelper;
+use yii2tool\test\Test\Rest;
 
 class BaseApiTest extends Rest
 {

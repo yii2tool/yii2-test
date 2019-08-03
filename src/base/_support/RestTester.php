@@ -1,8 +1,8 @@
 <?php
 
-namespace yii2lab\test\base\_support;
+namespace yii2tool\test\base\_support;
 
-use yii2lab\test\traits\RestAssertTrait;
+use yii2tool\test\traits\RestAssertTrait;
 
 /**
  * Inherited Methods

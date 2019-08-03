@@ -1,18 +1,18 @@
 <?php
 
-namespace yii2lab\test\Test;
+namespace yii2tool\test\Test;
 
 use yii\helpers\ArrayHelper;
-use yii2lab\test\helpers\TestHelper;
+use yii2tool\test\helpers\TestHelper;
 use yii2bundle\account\domain\v3\helpers\test\AuthTestHelper;
 use yii2bundle\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
 
-// todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2lab\test\Test\Unit;"
+// todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2tool\test\Test\Unit;"
 
 /**
  * Class Unit
  *
- * @package yii2lab\test\Test
+ * @package yii2tool\test\Test
  *
  * @property \RestTester|\UnitTester $tester
  */

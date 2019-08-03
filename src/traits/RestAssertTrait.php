@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\test\traits;
+namespace yii2tool\test\traits;
 
 trait RestAssertTrait
 {
