@@ -17,8 +17,8 @@ use yii2rails\app\domain\helpers\EnvService;
 use yii2rails\extension\web\enums\HttpHeaderEnum;
 use yii2rails\extension\web\enums\HttpMethodEnum;
 use yii2rails\extension\yii\helpers\FileHelper;
-use yii2module\account\domain\v3\entities\LoginEntity;
-use yii2module\account\domain\v3\helpers\test\AuthTestHelper;
+use yii2bundle\account\domain\v3\entities\LoginEntity;
+use yii2bundle\account\domain\v3\helpers\test\AuthTestHelper;
 
 class RestTestHelper {
 

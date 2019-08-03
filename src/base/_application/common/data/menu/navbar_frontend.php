@@ -5,6 +5,6 @@ return [
 		'yii2lab\rest\web\helpers\Menu',
 	],
 	'rightMenu' => [
-		'yii2module\account\module\helpers\Menu',
+		'yii2bundle\account\module\helpers\Menu',
 	],
 ];

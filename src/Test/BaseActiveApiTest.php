@@ -15,8 +15,8 @@ use yii2rails\extension\common\helpers\Helper;
 use yii2rails\extension\common\helpers\TempHelper;
 use yii2rails\extension\web\enums\HttpHeaderEnum;
 use yii2rails\extension\web\enums\HttpMethodEnum;
-use yii2module\account\domain\v3\helpers\test\AuthTestHelper;
-use yii2module\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
+use yii2bundle\account\domain\v3\helpers\test\AuthTestHelper;
+use yii2bundle\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
 
 class BaseActiveApiTest extends BaseApiTest
 {

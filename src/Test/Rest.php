@@ -4,8 +4,8 @@ namespace yii2lab\test\Test;
 
 use yii\helpers\ArrayHelper;
 use yii2lab\test\helpers\TestHelper;
-use yii2module\account\domain\v3\helpers\test\AuthTestHelper;
-use yii2module\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
+use yii2bundle\account\domain\v3\helpers\test\AuthTestHelper;
+use yii2bundle\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
 
 // todo: autoreplace "use PHPUnit\Framework\TestResult;" to "use yii2lab\test\Test\Unit;"
 

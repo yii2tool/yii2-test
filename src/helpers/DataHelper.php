@@ -9,9 +9,9 @@ use yii2rails\domain\base\BaseDto;
 use yii2rails\domain\BaseEntity;
 use yii2rails\extension\store\StoreFile;
 use yii2rails\extension\yii\helpers\FileHelper;
-use yii2module\account\domain\v3\entities\LoginEntity;
-use yii2module\account\domain\v3\forms\LoginForm;
-use yii2module\account\domain\v3\interfaces\entities\LoginEntityInterface;
+use yii2bundle\account\domain\v3\entities\LoginEntity;
+use yii2bundle\account\domain\v3\forms\LoginForm;
+use yii2bundle\account\domain\v3\interfaces\entities\LoginEntityInterface;
 
 class DataHelper {
 
