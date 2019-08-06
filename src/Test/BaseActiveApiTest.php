@@ -221,7 +221,7 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function createEntityUnProcessible($endpoint, $data, $errorFields = null) {
-        $responseEntity = $this->send($endpoint, HttpMethodEnum::POST, $data);
+        $responseEntity = $this->send($endpoint, HttpMethodEnum::POST, $data, 422);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->method = HttpMethodEnum::POST;
@@ -265,7 +265,7 @@ class BaseActiveApiTest extends BaseApiTest
         if($responseEntity->status_code >= 500 && $dumpDangerResponse && $expectSatausCode != $responseEntity->status_code) {
             d($responseEntity);
         }
-        if($responseEntity->status_code >= 400 && $dumpDangerResponse && $expectSatausCode < 500) {
+        if($responseEntity->status_code >= 400 && $dumpDangerResponse && $expectSatausCode < 500 && $expectSatausCode != $responseEntity->status_code) {
             d($responseEntity);
         }
 
