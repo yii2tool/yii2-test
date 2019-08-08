@@ -21,6 +21,11 @@ use yii2bundle\account\domain\v3\helpers\test\CurrentPhoneTestHelper;
 class BaseActiveApiTest extends BaseApiTest
 {
 
+    protected function assertRemoteFileMd5($url, $md5) {
+        $contentActual = file_get_contents($url);
+        $this->tester->assertEquals($md5, md5($contentActual));
+    }
+
     protected function assertRemoteFile($url, $content) {
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $url;
