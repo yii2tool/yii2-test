@@ -31,6 +31,23 @@ class BaseActiveApiTest extends BaseApiTest
         $this->tester->assertEquals($content, $contentActual);
     }
 
+    protected function uploadImageToPersonal($fileName) {
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = 'storage-personal';
+        $requestEntity->method = HttpMethodEnum::POST;
+        /*if(empty($extId)) {
+            $extId = Helper::microtimeId();
+        }*/
+        //$fileName = TempHelper::save($extId . '.data', $extId);
+        $requestEntity->files = [
+            'file' => $fileName,
+        ];
+        $responseEntity = $this->sendRequest($requestEntity);
+        $this->tester->assertEquals(201, $responseEntity->status_code);
+        $lastId = $this->getLastId($responseEntity);
+        return $lastId;
+    }
+
     protected function uploadRandomFileToPersonal($extId = null) {
         $requestEntity = new RequestEntity;
         $requestEntity->uri = 'storage-personal';
