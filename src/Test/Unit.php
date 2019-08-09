@@ -12,7 +12,7 @@ use yii2tool\test\helpers\DataHelper;
  *
  * @package yii2tool\test\Test
  *
- * @property UnitTester $tester
+ * @property \UnitTester $tester
  */
 class Unit extends Base {
 	

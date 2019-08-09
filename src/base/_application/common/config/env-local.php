@@ -10,7 +10,7 @@ $config = [
 		'api' => 'http://api.example.com/',
 	],
     /*'aliases' => [
-        '@common/data' => '@yii2lab/test/base/_application/common/data',
+        '@common/data' => '@yii2tool/test/base/_application/common/data',
     ],*/
 	'cookieValidationKey' => [
 		'frontend' => 'bBXEWnH5ERCG7SF3wxtbotYxq3W-Op7B',
@@ -20,11 +20,11 @@ $config = [
 		'db' => [
 			'main' => [
 				'driver' => 'sqlite',
-				'dbname' => '@yii2lab/test/db/test.db',
+				'dbname' => '@yii2tool/test/db/test.db',
 			],
 			'test' => [
 				'driver' => 'sqlite',
-				'dbname' => '@yii2lab/test/db/test.db',
+				'dbname' => '@yii2tool/test/db/test.db',
 			],
 		],
 		'static' => [
@@ -36,7 +36,7 @@ $config = [
 			],
 		],
         'filedb' => [
-            'path' => '@yii2lab/test/base/_application/common/data',
+            'path' => '@yii2tool/test/base/_application/common/data',
         ],
 	],
 ];

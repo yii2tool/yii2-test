@@ -2,7 +2,7 @@
 
 use yii2bundle\lang\domain\enums\LanguageEnum;
 
-$commonDir = '@yii2lab/test/base/_application/common';
+$commonDir = '@yii2tool/test/base/_application/common';
 
 return [
 	'name' => 'Test',
@@ -34,7 +34,7 @@ return [
 		'i18n' => [
 			'class' => 'yii2bundle\lang\domain\i18n\I18N',
 			'aliases' => [
-				'*' => '@yii2lab/test/base/_application/common/messages',
+				'*' => '@yii2tool/test/base/_application/common/messages',
 			],
 		],
 		'db' => 'yii2lab\db\domain\db\Connection',
