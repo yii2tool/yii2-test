@@ -127,7 +127,7 @@ class BaseActiveApiTest extends BaseApiTest
         return $actual;
     }
 
-    protected function readCollection($endpoint, $query, $schema, $pagination = null, $statusCode = 200) : array {
+    protected function readCollection($endpoint, $query, $schema = [], $pagination = null, $statusCode = 200) : array {
         $responseEntity = $this->send($endpoint, HttpMethodEnum::GET, $query);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
@@ -254,6 +254,23 @@ class BaseActiveApiTest extends BaseApiTest
             $this->tester->assertUnprocessableEntityExceptionFields($errorFields, $responseEntity->data);
         }
         return $responseEntity->data;
+    }
+
+    protected function uploadFile($endpoint, $files, $isRememberLastId = false, $expectSatausCode = 201) {
+        $requestEntity = new RequestEntity;
+        $requestEntity->uri = $endpoint;
+        $requestEntity->method = HttpMethodEnum::POST;
+        $requestEntity->files = $files;
+        $responseEntity = $this->sendRequest($requestEntity);
+
+        $this->tester->assertEquals($expectSatausCode, $responseEntity->status_code);
+        if($isRememberLastId && $responseEntity->status_code == 201) {
+            $lastId = $responseEntity->getHeader(HttpHeaderEnum::X_ENTITY_ID);
+            $this->tester->assertNotEmpty($lastId);
+            $lastId = intval($lastId);
+            CurrentIdTestHelper::set($lastId);
+        }
+        return $responseEntity;
     }
 
     protected function createEntity($endpoint, $data, $isRememberLastId = false, $expectSatausCode = 201) {
