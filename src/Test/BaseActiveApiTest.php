@@ -107,7 +107,11 @@ class BaseActiveApiTest extends BaseApiTest
     }
 
     protected function readEntity($endpoint, $id, $schema = [], $query = [], $statusCode = 200) : array {
-        $responseEntity = $this->send($endpoint . SL . $id, HttpMethodEnum::GET, $query);
+        $uri = $endpoint;
+        if($id) {
+            $uri .= SL . $id;
+        }
+        $responseEntity = $this->send($uri, HttpMethodEnum::GET, $query);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = trim($endpoint . SL . $id, SL);
         $requestEntity->data = $query;
