@@ -131,8 +131,8 @@ class BaseActiveApiTest extends BaseApiTest
         return $actual;
     }
 
-    protected function readCollection($endpoint, $query, $schema = [], $pagination = null, $statusCode = 200) : array {
-        $responseEntity = $this->send($endpoint, HttpMethodEnum::GET, $query);
+    protected function readCollection($endpoint, $query, $schema = [], $pagination = null, $statusCode = 200, $headers = []) : array {
+        $responseEntity = $this->send($endpoint, HttpMethodEnum::GET, $query, null, $headers);
         /*$requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->data = $query;
@@ -295,10 +295,11 @@ class BaseActiveApiTest extends BaseApiTest
         return $responseEntity;
     }
 
-    protected function send($endpoint, $method, $data = null, $expectSatausCode = null) {
+    protected function send($endpoint, $method, $data = null, $expectSatausCode = null, $headers = []) {
         $requestEntity = new RequestEntity;
         $requestEntity->uri = $endpoint;
         $requestEntity->method = $method;
+        $requestEntity->headers = $headers;
         if($data) {
             $requestEntity->data = $data;
         }
