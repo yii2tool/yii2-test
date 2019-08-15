@@ -46,6 +46,11 @@ class TestHelper {
         return $isSkip;
     }
 
+    public static function printMessagePure($message) {
+        $m = $message . PHP_EOL;
+        fwrite(STDERR, $m);
+    }
+
     public static function printMessage($message) {
         $m = '! >>> ' . $message . PHP_EOL;
         fwrite(STDERR, $m);

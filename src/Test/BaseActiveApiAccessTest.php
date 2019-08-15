@@ -2,6 +2,7 @@
 
 namespace yii2tool\test\Test;
 
+use phpbundle\rest\domain\enums\HttpHeaderEnum;
 use yii2tool\test\Test\BaseApiTest;
 
 use common\enums\rbac\RoleEnum;
@@ -23,7 +24,11 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
 
     const ALLOW = 'allow';
     const DENY = 'deny';
-    
+
+    protected function entitySchema() : array {
+        return [];
+    }
+
     protected function newEntity() : array {
         return [];
     }
@@ -41,9 +46,9 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
         AuthTestHelper::authByLogin($newEntity['authBy']);
         $phone = PhoneTestHelper::nextPhone();
         $this->createEntity($this->resource, $newEntity['data'], true);
-
+        //$schema = $this->schema;
         $id = CurrentIdTestHelper::get();
-        $this->readEntity($this->resource, $id, UnionSchema::$member);
+        $this->readEntity($this->resource, $id, $this->entitySchema());
     }
     
     public function testOne() {
@@ -81,7 +86,7 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
             return;
         }
         foreach ($map as $item) {
-            TestHelper::printMessage('===');
+            //TestHelper::printMessage('===');
             $this->runAccessItemTest($action, $method, $item);
         }
     }
@@ -91,15 +96,25 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
         $actual = [];
         foreach ($access as $login => $expectedStatus) {
             $this->authByLogin($login);
-            TestHelper::printMessage($login);
             $uri = $this->forgeUri($map);
             $responseEntity = $this->send($uri, $method);
+
+            if($responseEntity->status_code == 200 && $responseEntity->data) {
+                if(in_array(HttpHeaderEnum::TOTAL_COUNT, $responseEntity->headers)) {
+                    $this->tester->assertCollectionType($this->entitySchema(), $responseEntity->data);
+                } else {
+                    $this->tester->assertArrayType($this->entitySchema(), $responseEntity->data);
+                }
+            }
             $actual[$login] = $this->statusCodeToAccess($responseEntity->status_code);
+            $isSuccessChar = $expectedStatus == $actual[$login] ? '+' : 'x';
+            TestHelper::printMessagePure($isSuccessChar . SPC . $login);
         }
         $this->tester->assertEquals($access, $actual);
     }
 
     protected function statusCodeToAccess($actualStatusCode) {
+        $access = $actualStatusCode;
         if($actualStatusCode == 422) {
             $access = self::ALLOW;
         }
