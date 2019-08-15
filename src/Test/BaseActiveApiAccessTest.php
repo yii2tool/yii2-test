@@ -24,6 +24,7 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
 
     const ALLOW = 'allow';
     const DENY = 'deny';
+    const ERROR = 'error';
 
     protected function entitySchema() : array {
         return [];
@@ -124,6 +125,9 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
         if($actualStatusCode >= 200 && $actualStatusCode < 300) {
             $access = self::ALLOW;
         }
+        if($actualStatusCode >= 500 && $actualStatusCode < 600) {
+            $access = self::ERROR;
+        }
         return $access;
     }
 
@@ -154,3 +158,78 @@ class BaseActiveApiAccessTest extends BaseActiveApiTest
     }
     
 }
+
+/*
+class UnionIndustryAccessTest extends BaseActiveApiAccessTest
+{
+
+    public $package = 'api';
+    public $point = 'v1';
+    public $resource = 'industry-union';
+
+    protected function newEntity() : array {
+        $extId = Helper::microtimeId();
+        return [
+            'authBy' => 'manager_opo',
+            'data' => [
+                'title' => 'test category ' . $extId,
+            ],
+        ];
+    }
+
+    protected function accessMap() : array {
+        $id = CurrentIdTestHelper::get();
+        return [
+            'one' => [
+                [
+                    'uri' => $id,
+                    'access' => [
+                        'guest' => self::DENY,
+                        'vitaliy' => self::ALLOW,
+                        'manager_opo' => self::ALLOW,
+                    ],
+                ],
+            ],
+            'all' => [
+                [
+                    'access' => [
+                        'guest' => self::DENY,
+                        'vitaliy' => self::ALLOW,
+                        'manager_opo' => self::ALLOW,
+                    ],
+                ],
+            ],
+            'create' => [
+                [
+                    'access' => [
+                        'guest' => self::DENY,
+                        'vitaliy' => self::DENY,
+                        'manager_opo' => self::ALLOW,
+                    ],
+                ],
+            ],
+            'update' => [
+                [
+                    'uri' => $id,
+                    'access' => [
+                        'guest' => self::DENY,
+                        'vitaliy' => self::DENY,
+                        'manager_opo' => self::ALLOW,
+                    ],
+                ],
+            ],
+            'delete' => [
+                [
+                    'uri' => $id,
+                    'access' => [
+                        'guest' => self::DENY,
+                        'vitaliy' => self::DENY,
+                        'manager_opo' => self::ALLOW,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+}
+*/
