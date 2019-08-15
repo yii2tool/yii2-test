@@ -1,0 +1,141 @@
+<?php
+
+namespace yii2tool\test\Test;
+
+use yii2tool\test\Test\BaseApiTest;
+
+use common\enums\rbac\RoleEnum;
+use yii\helpers\ArrayHelper;
+use yii2bundle\account\domain\v3\helpers\test\PhoneTestHelper;
+use yii2bundle\account\domain\v3\helpers\test\RegistrationTestHelper;
+use yii2lab\rest\domain\entities\RequestEntity;
+use yii2rails\extension\web\enums\HttpMethodEnum;
+use yii2tool\test\helpers\TestHelper;
+use yubundle\reference\tests\rest\v1\ReferenceSchema;
+use api\tests\functional\v1\union\UnionSchema;
+use yii2tool\test\helpers\CurrentIdTestHelper;
+use yii2tool\test\Test\BaseActiveApiTest;
+use yii2bundle\account\domain\v3\helpers\test\AuthTestHelper;
+use yubundle\user\tests\rest\v1\UserSchema;
+
+class BaseActiveApiAccessTest extends BaseActiveApiTest
+{
+
+    const ALLOW = 'allow';
+    const DENY = 'deny';
+    
+    protected function newEntity() : array {
+        return [];
+    }
+    
+    protected function accessMap() : array {
+        return [];
+    }
+    
+    public function testCreateReal() {
+        $newEntity = $this->newEntity();
+        if(empty($newEntity)) {
+            TestHelper::printMessage('skip - not defined new entity');
+            return;
+        }
+        AuthTestHelper::authByLogin($newEntity['authBy']);
+        $phone = PhoneTestHelper::nextPhone();
+        $this->createEntity($this->resource, $newEntity['data'], true);
+
+        $id = CurrentIdTestHelper::get();
+        $this->readEntity($this->resource, $id, UnionSchema::$member);
+    }
+    
+    public function testOne() {
+        $this->runAccessTest('one');
+    }
+
+    public function testAll() {
+        $this->runAccessTest('all');
+    }
+
+    public function testCreate() {
+        $this->runAccessTest('create');
+    }
+
+    public function testUpdate() {
+        $this->runAccessTest('update');
+    }
+
+    public function testDelete() {
+        $this->runAccessTest('delete');
+    }
+
+    protected function accessMapForAction($name) {
+        $map = $this->accessMap();
+        return ArrayHelper::getValue($map, $name);
+    }
+
+    protected function runAccessTest($action, $method = null) {
+        if($method == null) {
+            $method = $this->getHttpMethodByAction($action);
+        }
+        $map = $this->accessMapForAction($action);
+        if(empty($map)) {
+            TestHelper::printMessage('skip - not defined');
+            return;
+        }
+        foreach ($map as $item) {
+            TestHelper::printMessage('===');
+            $this->runAccessItemTest($action, $method, $item);
+        }
+    }
+
+    protected function runAccessItemTest($action, $method = null, $map) {
+        $access = $map['access'];
+        $actual = [];
+        foreach ($access as $login => $expectedStatus) {
+            $this->authByLogin($login);
+            TestHelper::printMessage($login);
+            $uri = $this->forgeUri($map);
+            $responseEntity = $this->send($uri, $method);
+            $actual[$login] = $this->statusCodeToAccess($responseEntity->status_code);
+        }
+        $this->tester->assertEquals($access, $actual);
+    }
+
+    protected function statusCodeToAccess($actualStatusCode) {
+        if($actualStatusCode == 422) {
+            $access = self::ALLOW;
+        }
+        if($actualStatusCode == 404 || $actualStatusCode == 403 || $actualStatusCode == 401) {
+            $access = self::DENY;
+        }
+        if($actualStatusCode >= 200 && $actualStatusCode < 300) {
+            $access = self::ALLOW;
+        }
+        return $access;
+    }
+
+    protected function getHttpMethodByAction($action) {
+        $methods = [
+            'one' => HttpMethodEnum::GET,
+            'all' => HttpMethodEnum::GET,
+            'create' => HttpMethodEnum::POST,
+            'update' => HttpMethodEnum::PUT,
+            'delete' => HttpMethodEnum::DELETE,
+        ];
+        return ArrayHelper::getValue($methods, $action);
+    }
+
+    protected function authByLogin($login) {
+        if($login == 'guest') {
+            AuthTestHelper::logout();
+        } else {
+            AuthTestHelper::authByLogin($login);
+        }
+    }
+
+    protected function forgeUri($map = null) {
+        if(!empty($map['uri'])) {
+            return $this->resource . SL . $map['uri'];
+        }
+        return $this->resource;
+    }
+    
+}
