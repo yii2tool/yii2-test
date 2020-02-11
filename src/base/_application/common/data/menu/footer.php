@@ -20,7 +20,7 @@ return [
 		],
 		[
 			'label' => ['main', 'go_to_backend'],
-			'url' => EnvService::getUrl(BACKEND),
+			'url' => $_ENV['ADMIN_DOMAIN_URL'],
 			'access' => ApplicationPermissionEnum::BACKEND_ALL,
 			'visible' => APP != BACKEND,
 		],
